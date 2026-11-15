@@ -1,0 +1,18 @@
+{
+  "dataset_name": "Mars 2020 Landing Site HiRISE Calibrated Orthorectified Mosaic",
+  "nasa_identifier": "HiRISE_M2020_LandingSite_Ortho_v1",
+  "mission": "Mars Reconnaissance Orbiter (MRO)",
+  "instrument": "High Resolution Imaging Science Experiment (HiRISE)",
+  "ground_resolution": "0.25 m to 2.0 m/pixel",
+  "spatial_reference": {
+    "coordinate_system": "IAU2000:49900 (Planetographic)",
+    "bounding_box": {
+      "min_lon": 77.38,
+      "max_lon": 77.46,
+      "min_lat": 18.42,
+      "max_lat": 18.49
+    },
+    "datum": "MOLA Areoid Datum (GMM-2B)"
+  },
+  "citation": "McEwen et al. (2007), Mars Reconnaissance Orbiter's High Resolution Imaging Science Experiment (HiRISE), J. Geophys. Res."
+}

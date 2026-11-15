@@ -1,0 +1,6 @@
+{
+  "dataset_name": "USGS SIM 3464 Jezero Crater Stratigraphic Map Units",
+  "reference": "Sun, V.Z., and Stack, K.M., 2020, Geologic map of Jezero crater and the Nili Planum region, Mars: U.S. Geological Survey Scientific Investigations Map 3464, pamphlet 14 p., scale 1:75,000.",
+  "format": "GeoJSON (Polygon vectors)",
+  "spatial_reference": "IAU2000:49900 (Planetographic East-positive)"
+}

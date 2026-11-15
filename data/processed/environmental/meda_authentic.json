@@ -1,0 +1,364 @@
+{
+  "metadata": {
+    "source": "NASA Planetary Data System (PDS) Atmospheres Node",
+    "instrument": "Mars Environmental Dynamics Analyzer (MEDA)",
+    "mission": "Mars 2020 Perseverance Rover",
+    "pds_bundle": "urn:nasa:pds:mars2020_meda",
+    "retrieval_date": "2026-11-15T06:05:32.391868+00:00",
+    "note": "Authentic calibrated observations from CAL_ATS (Air Temperature) and CAL_PS (Pressure)."
+  },
+  "sols": [
+    {
+      "sol": 1,
+      "source": "NASA PDS Atmospheres Node",
+      "archive_url": "https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0000_0089/sol_0001/",
+      "files_downloaded": [
+        {
+          "filename": "WE__0001___________CAL_ATS_________________P01.CSV",
+          "sha256": "ca4d4b9005db793694d8ee75c405413c91e3eadbf0aff317dee079283aa842ec",
+          "size_bytes": 141901
+        },
+        {
+          "filename": "WE__0001___________CAL_ATS_________________P01.xml",
+          "sha256": "81e6a9fce207a72eb962349c958210f2a359e8fdff42066e3e0d1e227da93ed1",
+          "size_bytes": 9801
+        },
+        {
+          "filename": "WE__0001___________CAL_PS__________________P02.CSV",
+          "sha256": "ef21cffb91eaf0e67733f336003bd910b9714e30c86af798876c3b0c0411b3a7",
+          "size_bytes": 215605
+        },
+        {
+          "filename": "WE__0001___________CAL_PS__________________P02.xml",
+          "sha256": "6e12cb4681bcb20a75675efea8c50ecc81d925e8c997e2f3fe57ab05f028f17e",
+          "size_bytes": 12587
+        }
+      ],
+      "air_temperature_kelvin": {
+        "min": 242.65,
+        "max": 272.18,
+        "mean": 253.73,
+        "samples": 8975
+      },
+      "air_temperature_celsius": {
+        "min": -30.5,
+        "max": -0.97,
+        "mean": -19.42
+      },
+      "atmospheric_pressure_pa": {
+        "min": 713.91,
+        "max": 724.23,
+        "mean": 716.99,
+        "samples": 2330
+      }
+    },
+    {
+      "sol": 89,
+      "source": "NASA PDS Atmospheres Node",
+      "archive_url": "https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0000_0089/sol_0089/",
+      "files_downloaded": [
+        {
+          "filename": "WE__0089___________CAL_ATS_________________P02.CSV",
+          "sha256": "2b763bccdcfdf9517a8a3a82b8c3d9886b450601d8732e0dc28ac89f4ea28efc",
+          "size_bytes": 8126496
+        },
+        {
+          "filename": "WE__0089___________CAL_ATS_________________P02.xml",
+          "sha256": "e42924e6246c1be6b22901729089d44202d9c6e3eedce6ececfa66a1ec38b59e",
+          "size_bytes": 10058
+        },
+        {
+          "filename": "WE__0089___________CAL_PS__________________P03.CSV",
+          "sha256": "b850546e9d07df9572451f9ef2eac4c7b07bb44a61a3f245d2b5939fb049bc89",
+          "size_bytes": 4748319
+        },
+        {
+          "filename": "WE__0089___________CAL_PS__________________P03.xml",
+          "sha256": "0af8b7f09606b25f8d7dc150ee867e9e3c8a267e530517c1f05d7182615c2237",
+          "size_bytes": 12840
+        }
+      ],
+      "air_temperature_kelvin": {
+        "min": 191.58,
+        "max": 268.35,
+        "mean": 219.55,
+        "samples": 507900
+      },
+      "air_temperature_celsius": {
+        "min": -81.57,
+        "max": -4.8,
+        "mean": -53.6
+      },
+      "atmospheric_pressure_pa": {
+        "min": 758.64,
+        "max": 778.04,
+        "mean": 768.04,
+        "samples": 50511
+      }
+    },
+    {
+      "sol": 190,
+      "source": "NASA PDS Atmospheres Node",
+      "archive_url": "https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0180_0299/sol_0190/",
+      "files_downloaded": [
+        {
+          "filename": "WE__0190___________CAL_ATS_________________P01.CSV",
+          "sha256": "085f9aa25a7dca6f0b7050c50ee27c82e654c56977d165adcd9d7cff86514fae",
+          "size_bytes": 4055798
+        },
+        {
+          "filename": "WE__0190___________CAL_ATS_________________P01.xml",
+          "sha256": "d0de4f03fe1f29a4a877df524bf107adc578308a0d3aa41191ba4def38e0e67f",
+          "size_bytes": 9806
+        },
+        {
+          "filename": "WE__0190___________CAL_PS__________________P02.CSV",
+          "sha256": "9193125171a2fe72a7c9a94b08d523d62254b05fda835edc35f22b570995f022",
+          "size_bytes": 4795977
+        },
+        {
+          "filename": "WE__0190___________CAL_PS__________________P02.xml",
+          "sha256": "a3658b3b4126d7990566ff1bcf99b703b29c5acfa0b224ff1ed065f89ea2290b",
+          "size_bytes": 12603
+        }
+      ],
+      "air_temperature_kelvin": {
+        "min": 192.55,
+        "max": 271.33,
+        "mean": 223.88,
+        "samples": 256690
+      },
+      "air_temperature_celsius": {
+        "min": -80.6,
+        "max": -1.82,
+        "mean": -49.27
+      },
+      "atmospheric_pressure_pa": {
+        "min": 708.77,
+        "max": 728.15,
+        "mean": 716.29,
+        "samples": 51018
+      }
+    },
+    {
+      "sol": 262,
+      "source": "NASA PDS Atmospheres Node",
+      "archive_url": "https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0180_0299/sol_0262/",
+      "files_downloaded": [
+        {
+          "filename": "WE__0262___________CAL_ATS_________________P01.CSV",
+          "sha256": "e7f23a03ce8f46f8fef25100a0640d45293391e15789cb0bba0295257ae3bfe1",
+          "size_bytes": 1079236
+        },
+        {
+          "filename": "WE__0262___________CAL_ATS_________________P01.xml",
+          "sha256": "cd02f4f7e7d6c4ad4268d8d76c2ccaa1a1f73135a8af7a86c917069addb3327f",
+          "size_bytes": 9808
+        },
+        {
+          "filename": "WE__0262___________CAL_PS__________________P02.CSV",
+          "sha256": "1f02d33c267e58f09a1d0ae4de2402cf1993729f2162da27b0028a7ff6e9022b",
+          "size_bytes": 1247571
+        },
+        {
+          "filename": "WE__0262___________CAL_PS__________________P02.xml",
+          "sha256": "0797f7f5735b05041c53183292d85656ed81d02eea53370a30e4751501778596",
+          "size_bytes": 12605
+        }
+      ],
+      "air_temperature_kelvin": {
+        "min": 206.45,
+        "max": 261.44,
+        "mean": 234.73,
+        "samples": 68300
+      },
+      "air_temperature_celsius": {
+        "min": -66.7,
+        "max": -11.71,
+        "mean": -38.42
+      },
+      "atmospheric_pressure_pa": {
+        "min": 644.7,
+        "max": 654.19,
+        "mean": 649.18,
+        "samples": 13269
+      }
+    },
+    {
+      "sol": 510,
+      "source": "NASA PDS Atmospheres Node",
+      "archive_url": "https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0420_0539/sol_0510/",
+      "files_downloaded": [
+        {
+          "filename": "WE__0510___________CAL_ATS_________________P01.CSV",
+          "sha256": "26e36071cfc7abe32b882e3e8c28e5e9fb6cc3381676389b55be9e570138bdb3",
+          "size_bytes": 2550453
+        },
+        {
+          "filename": "WE__0510___________CAL_ATS_________________P01.xml",
+          "sha256": "fe08831643a2d400c64a50a38cecc4c9aed60b6a31929a0016feb62e1d5677e1",
+          "size_bytes": 9808
+        },
+        {
+          "filename": "WE__0510___________CAL_PS__________________P01.CSV",
+          "sha256": "27bfa43ff070c663331aec397111e04b922c8d64ea1e39b9ced02b803343c0b7",
+          "size_bytes": 2973693
+        },
+        {
+          "filename": "WE__0510___________CAL_PS__________________P01.xml",
+          "sha256": "ddc1f9da643964093a25beb8abeaaf7f22e3143a19d7130a4810367479ce3539",
+          "size_bytes": 12359
+        }
+      ],
+      "air_temperature_kelvin": {
+        "min": 187.37,
+        "max": 277.01,
+        "mean": 217.46,
+        "samples": 161415
+      },
+      "air_temperature_celsius": {
+        "min": -85.78,
+        "max": 3.86,
+        "mean": -55.69
+      },
+      "atmospheric_pressure_pa": {
+        "min": 770.98,
+        "max": 807.47,
+        "mean": 793.75,
+        "samples": 31632
+      }
+    },
+    {
+      "sol": 800,
+      "source": "NASA PDS Atmospheres Node",
+      "archive_url": "https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0780_0899/sol_0800/",
+      "files_downloaded": [
+        {
+          "filename": "WE__0800___________CAL_ATS_________________P01.CSV",
+          "sha256": "1878a8e15bf0c811dbb67edc7b1de245ae6038c79fb8c4b76ec16201d9eee47c",
+          "size_bytes": 4107701
+        },
+        {
+          "filename": "WE__0800___________CAL_ATS_________________P01.xml",
+          "sha256": "dc8bfc0059ab53f3bc2b8c46b5e56fd2a0631cfe7b82bb17cf55d513137666ba",
+          "size_bytes": 9806
+        },
+        {
+          "filename": "WE__0800___________CAL_PS__________________P01.CSV",
+          "sha256": "2d9c644d3b9556b9bcd89a824ec22ed3de668d67cbc506ff3f89dc2eb22df24b",
+          "size_bytes": 4852941
+        },
+        {
+          "filename": "WE__0800___________CAL_PS__________________P01.xml",
+          "sha256": "827acb8c96bbb39b3e0c53cd406afcab10be7b5fbc74d32b6e4258f43dc97d9c",
+          "size_bytes": 12357
+        }
+      ],
+      "air_temperature_kelvin": {
+        "min": 195.0,
+        "max": 267.32,
+        "mean": 224.65,
+        "samples": 259975
+      },
+      "air_temperature_celsius": {
+        "min": -78.15,
+        "max": -5.83,
+        "mean": -48.5
+      },
+      "atmospheric_pressure_pa": {
+        "min": 742.72,
+        "max": 760.39,
+        "mean": 750.82,
+        "samples": 51624
+      }
+    },
+    {
+      "sol": 1050,
+      "source": "NASA PDS Atmospheres Node",
+      "archive_url": "https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_1020_1139/sol_1050/",
+      "files_downloaded": [
+        {
+          "filename": "WE__1050___________CAL_ATS_________________P01.CSV",
+          "sha256": "6e6a0bbf37d8e7884615b64b23ca4e5f682cce32be9f26ee12239a116451303d",
+          "size_bytes": 3843762
+        },
+        {
+          "filename": "WE__1050___________CAL_ATS_________________P01.xml",
+          "sha256": "a7178d97b4669b1ba819bb204d327a7f302ead36213934e79ad9c38bfa696017",
+          "size_bytes": 9809
+        },
+        {
+          "filename": "WE__1050___________CAL_PS__________________P01.CSV",
+          "sha256": "70629fffd54d2aeec52fd61fbd63ea9a73c69e6934d2d21fc50f91f2c9a54c68",
+          "size_bytes": 4535691
+        },
+        {
+          "filename": "WE__1050___________CAL_PS__________________P01.xml",
+          "sha256": "6eb0ebb8e9f40d06a4e097c3ac434adb603683ca685293c0aa9dfde4223f287e",
+          "size_bytes": 12360
+        }
+      ],
+      "air_temperature_kelvin": {
+        "min": 198.85,
+        "max": 275.06,
+        "mean": 226.72,
+        "samples": 243270
+      },
+      "air_temperature_celsius": {
+        "min": -74.3,
+        "max": 1.91,
+        "mean": -46.43
+      },
+      "atmospheric_pressure_pa": {
+        "min": 656.39,
+        "max": 694.23,
+        "mean": 674.23,
+        "samples": 48249
+      }
+    },
+    {
+      "sol": 1215,
+      "source": "NASA PDS Atmospheres Node",
+      "archive_url": "https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_1140_1259/sol_1215/",
+      "files_downloaded": [
+        {
+          "filename": "WE__1215___________CAL_ATS_________________P01.CSV",
+          "sha256": "787a125313c94b31999fc79b9507b79ea96f1ec63eec2f4964319c8513886b0c",
+          "size_bytes": 1480477
+        },
+        {
+          "filename": "WE__1215___________CAL_ATS_________________P01.xml",
+          "sha256": "5f64a5f150df918d050d6164a8c406cb6a1cbe44845d1810e1b8de1b5ddd574c",
+          "size_bytes": 9809
+        },
+        {
+          "filename": "WE__1215___________CAL_PS__________________P01.CSV",
+          "sha256": "f3045c4fe2fb1dec109f8aa40cc2660d3ab73fc175477ffa9bd4a72ca63ec8bf",
+          "size_bytes": 1688243
+        },
+        {
+          "filename": "WE__1215___________CAL_PS__________________P01.xml",
+          "sha256": "f605c825bd232392b8160506aa8fe2c43b6734584be2b8c9cc982280c65ea1e3",
+          "size_bytes": 12360
+        }
+      ],
+      "air_temperature_kelvin": {
+        "min": 191.65,
+        "max": 279.31,
+        "mean": 222.97,
+        "samples": 93695
+      },
+      "air_temperature_celsius": {
+        "min": -81.5,
+        "max": 6.16,
+        "mean": -50.18
+      },
+      "atmospheric_pressure_pa": {
+        "min": 737.34,
+        "max": 767.79,
+        "mean": 754.09,
+        "samples": 17957
+      }
+    }
+  ]
+}

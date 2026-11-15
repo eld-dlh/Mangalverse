@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "ctx_dem": {
+      "logical_identifier": "urn:nasa:pds:mars2020_ctx_basemap_2021:data:m20_ctxdem_mosaic",
+      "title": "Mars 2020 Science Investigation CTX DEM Mosaic",
+      "version_id": "1.0",
+      "processing_level": "Derived",
+      "west_lon": "76.9974370614600048",
+      "east_lon": "78.5825633240881842",
+      "north_lat": "19.2901870068661516",
+      "south_lat": "17.5805199105447514",
+      "pixel_resolution_x": "20",
+      "pixel_resolution_y": "20",
+      "source_xml": "data\\originals\\ctx\\M20_JezeroCrater_CTXDEM_20m.xml"
+    },
+    "ctx_ortho": {
+      "logical_identifier": "urn:nasa:pds:mars2020_ctx_basemap_2021:data:m20_ctxortho_mosaic",
+      "title": "Mars 2020 Science Investigation CTX Orthoimage Mosaic",
+      "version_id": "1.0",
+      "processing_level": "Derived",
+      "west_lon": "77.0008539783779469",
+      "east_lon": "78.581474603636039",
+      "north_lat": "19.2889626088002402",
+      "south_lat": "17.5813910277250862",
+      "pixel_resolution_x": "5.00206468110262659",
+      "pixel_resolution_y": "5.00226297161329292",
+      "source_xml": "data\\originals\\ctx\\M20_JezeroCrater_CTXortho_mosaic_5m.xml"
+    }
+  },
+  "sha256_ctx_dem_orig": "ba7f706ea1b5d63a562f28a7dcf7a7f3c79bce7f048e6974b57e8a33c30d1ba2",
+  "sha256_ctx_ortho_orig": "cd9f4b2154fdd43e8c17abfbae63210b72507db2209d1d7db63f6f855b18d2df",
+  "sha256_hirise_orig": "0c681fa0c2fa72ec2253d09ed8643d5794ea0c3575f5fa953d470cc0beeb1751",
+  "sha256_geology_orig": "a88bd53a5573743cc4a20036c10e585106d08a433ad2f34af269e9cea1529f87",
+  "sha256_meda_sis": "4540eb27a3e02ca37acdf9d7fd426f78241be49c288b0690a43744afa6396c72",
+  "sha256_meda_sol1": "ca4d4b9005db793694d8ee75c405413c91e3eadbf0aff317dee079283aa842ec",
+  "sha256_meda_json": "63001ffc4c7fc7e9ed0a598a0ac0369a1a5c9db6b5c771aed2b5a4d4e7ff5025",
+  "sha256_ctx_dem_proc": "5095b0db2227a1e8cf664c4b1b6af8bf58dbb6c53803fe876527dbba7fb3ea59",
+  "ctx_dem": {
+    "path": "data\\processed\\elevation\\jezero_ctx_dem_authentic.tif",
+    "sha256": "5095b0db2227a1e8cf664c4b1b6af8bf58dbb6c53803fe876527dbba7fb3ea59",
+    "shape": [
+      5067,
+      4456
+    ],
+    "crs": "PROJCS[\"Jezero_Crater_Projection\",GEOGCS[\"GCS_Mars_2000_Sphere\",DATUM[\"Mars_2000_(Sphere)\",SPHEROID[\"Mars_2000_Sphere\",3396190,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",18.4663],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]"
+  },
+  "sha256_ctx_ortho_proc": "cd9f4b2154fdd43e8c17abfbae63210b72507db2209d1d7db63f6f855b18d2df",
+  "ctx_ortho": {
+    "path": "data\\processed\\imagery\\jezero_ctx_ortho_authentic.tif",
+    "sha256": "cd9f4b2154fdd43e8c17abfbae63210b72507db2209d1d7db63f6f855b18d2df",
+    "shape": [
+      20234,
+      17766
+    ],
+    "crs": "PROJCS[\"Equirectangular\",GEOGCS[\"GCS_Geographic_Coordinate_System\",DATUM[\"D_MARS\",SPHEROID[\"MARS\",3396190,0]],PRIMEM[\"Reference Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",18.4663],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]"
+  },
+  "sha256_hirise_proc": "d04f3bb6c43cc5b43a888fe2717ed2c6209c436e7be6c580b4a1f81bbede9d03",
+  "hirise": {
+    "path": "data\\processed\\elevation\\jezero_hirise_dtm_authentic.tif",
+    "sha256": "d04f3bb6c43cc5b43a888fe2717ed2c6209c436e7be6c580b4a1f81bbede9d03",
+    "shape": [
+      7113,
+      7061
+    ],
+    "crs": "ESRI:103885"
+  },
+  "sha256_geology_proc": "927ae080f3123cf9d14041fa1a7d208b8a8ef28500e4861143b083c64e8ccd54",
+  "geology": {
+    "path": "data\\processed\\vector\\jezero_geological_units_authentic.geojson",
+    "sha256": "927ae080f3123cf9d14041fa1a7d208b8a8ef28500e4861143b083c64e8ccd54",
+    "features": 1304
+  }
+}

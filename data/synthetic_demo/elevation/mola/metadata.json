@@ -1,0 +1,33 @@
+{
+  "dataset_name": "MOLA Mission Experiment Gridded Data Record (MEGDR) Regional Subset",
+  "nasa_identifier": "MGS-M-MOLA-5-MEGDR-L3-V1.0",
+  "mission": "Mars Global Surveyor (MGS)",
+  "instrument": "Mars Orbiter Laser Altimeter (MOLA)",
+  "archival_node": "NASA Planetary Data System (PDS) Geosciences Node",
+  "spatial_reference": {
+    "coordinate_system": "IAU2000:49900 (Mars Planetographic)",
+    "projection": "Equirectangular / Geographic WGS84-equivalent on Mars Sphere",
+    "datum": "MOLA Areoid (Gravitational Equipotential Surface GMM-2B)",
+    "bounding_box": {
+      "min_lon": 77.1,
+      "max_lon": 77.7,
+      "min_lat": 18.2,
+      "max_lat": 18.65
+    }
+  },
+  "resolution": {
+    "pixel_dimensions_deg": [
+      0.0075,
+      0.0075
+    ],
+    "ground_sampling_distance_meters": "~463 m/pixel"
+  },
+  "elevation_units": "meters",
+  "elevation_stats": {
+    "min_elevation_m": -2599.0,
+    "max_elevation_m": -2192.0,
+    "mean_elevation_m": -2525.0
+  },
+  "processing_performed": "Spatial subset extracted from global 128 px/deg MEGDR grid; reprojected to Planetographic East-positive coordinates.",
+  "citation": "Smith et al. (2001), Mars Orbiter Laser Altimeter: Experiment summary and data processing, J. Geophys. Res., 106, 23689-23722."
+}

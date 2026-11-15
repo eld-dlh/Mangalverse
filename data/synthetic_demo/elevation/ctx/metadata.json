@@ -1,0 +1,36 @@
+{
+  "dataset_name": "Mars 2020 Science Investigation Jezero Crater CTX DEM Mosaic",
+  "nasa_identifier": "mars2020_jezero_ctx_mosaic_20m",
+  "usgs_astropedia_id": "1341",
+  "mission": "Mars Reconnaissance Orbiter (MRO)",
+  "instrument": "Context Camera (CTX)",
+  "producer": "USGS Astrogeology Science Center / NASA Ames Stereo Pipeline",
+  "source_stereo_pairs": [
+    "P17_007786_1987_XN_18N282W",
+    "P22_009645_1987_XN_18N282W",
+    "B17_016370_1986_XN_18N282W"
+  ],
+  "spatial_reference": {
+    "coordinate_system": "IAU2000:49900 (Planetographic East-positive)",
+    "bounding_box": {
+      "min_lon": 77.3,
+      "max_lon": 77.5,
+      "min_lat": 18.38,
+      "max_lat": 18.52
+    },
+    "datum": "MOLA Areoid Datum (Meters)"
+  },
+  "resolution": {
+    "pixel_dimensions_deg": [
+      0.0005,
+      0.00035
+    ],
+    "ground_sampling_distance_meters": "20.0 m/pixel"
+  },
+  "elevation_stats": {
+    "min_elevation_m": -2586.7,
+    "max_elevation_m": -2213.9,
+    "mean_elevation_m": -2508.4
+  },
+  "citation": "Fergason et al., CTX digital elevation models for Mars 2020 landing site studies, USGS Astrogeology Science Center."
+}

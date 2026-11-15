@@ -1,0 +1,47 @@
+{
+  "mars_cartographic_standards": {
+    "governing_body": "IAU/IAG Working Group on Cartographic Coordinates and Rotational Elements (WGCCRE)",
+    "body": "Mars",
+    "reference_system": "IAU 2000 / IAU 2015 Cartographic System for Mars",
+    "ellipsoid": {
+      "semi_major_axis_meters": 3396190.0,
+      "semi_minor_axis_meters": 3376200.0,
+      "inverse_flattening": 169.814408,
+      "volumetric_mean_radius_meters": 3389500.0
+    },
+    "vertical_datum": {
+      "name": "MOLA Areoid Datum (GMM-2B Gravitational Equipotential Surface)",
+      "definition": "Gravitational potential surface where the mean equatorial radius equals 3,396,000 meters; approximates 6.105 mbar surface.",
+      "units": "meters",
+      "reference_publication": "Smith et al. (2001), Mars Orbiter Laser Altimeter: Experiment summary and data processing, J. Geophys. Res."
+    },
+    "coordinate_conventions": {
+      "latitude_type": "Planetographic (North positive, 0° to 90°N, 0° to -90°S)",
+      "longitude_type": "East positive (0° to 360°E or -180° to +180°E)",
+      "time_system": "Local True Solar Time (LTST) and Martian Sols (since Perseverance landing Sol 0 = 2021-02-18)"
+    },
+    "crs_definitions": {
+      "geographic_iau2000": {
+        "name": "GCS_Mars_2000",
+        "authority": "IAU2000:49900",
+        "wkt2": "GEOGCRS[\"Mars (2000) - Sphere\",DATUM[\"Mars (2000) - Sphere\",ELLIPSOID[\"Mars (2000) - Sphere\",3396190,0,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433]],CS[ellipsoidal,2],AXIS[\"geodetic latitude (Lat)\",north,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433]],AXIS[\"geodetic longitude (Lon)\",east,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433]]]",
+        "proj4": "+proj=longlat +a=3396190 +b=3396190 +no_defs"
+      },
+      "equirectangular_jezero": {
+        "name": "Equirectangular_Mars_Jezero",
+        "standard_parallel_1": 18.0,
+        "central_meridian": 77.0,
+        "proj4": "+proj=eqc +lat_ts=18 +lat_0=0 +lon_0=77 +x_0=0 +y_0=0 +a=3396190 +b=3396190 +units=m +no_defs",
+        "usage": "Standard projection for Mars 2020 landing site characterization and USGS Astropedia TRN products."
+      }
+    },
+    "jezero_bounding_box": {
+      "min_longitude_east": 77.30,
+      "max_longitude_east": 77.50,
+      "min_latitude_north": 18.38,
+      "max_latitude_north": 18.52,
+      "center_latitude_north": 18.4447,
+      "center_longitude_east": 77.4508
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "dataset_name": "Jezero Crater CTX Orthorectified Regional Imagery Mosaic",
+  "nasa_identifier": "MRO_CTX_JEZERO_MOSAIC_V1",
+  "mission": "Mars Reconnaissance Orbiter (MRO)",
+  "instrument": "Context Camera (CTX)",
+  "producer": "Bruce Murray Laboratory for Planetary Visualization / Caltech",
+  "resolution": "6.0 m/pixel to 20.0 m/pixel",
+  "spatial_reference": {
+    "coordinate_system": "IAU2000:49900 (Planetographic East-positive)",
+    "bounding_box": {
+      "min_lon": 77.3,
+      "max_lon": 77.5,
+      "min_lat": 18.38,
+      "max_lat": 18.52
+    },
+    "datum": "MOLA Areoid Datum (Meters)"
+  },
+  "citation": "Dickson et al. (2018), The Murray Lab global CTX mosaic of Mars, LPSC 49, Abstract 2480."
+}

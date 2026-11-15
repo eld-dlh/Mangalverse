@@ -1,0 +1,16 @@
+{
+  "dataset_name": "NASA Mars 2020 MEDA Calibrated Atmospheric Dataset",
+  "pds4_bundle_urn": "urn:nasa:pds:mars2020_meda",
+  "archival_node": "NASA Planetary Data System (PDS) Atmospheres Node",
+  "lead_institution": "Centro de Astrobiolog\u00eda (CSIC-INTA) / NASA JPL",
+  "sensors_suite": {
+    "PS": "Pressure Sensor (Solid-state piezoresistive barometric transducer, range 0-1150 Pa, precision 3 Pa)",
+    "ATS": "Air Temperature Sensors (5 platinum resistance thermometers mounted at 0.84m, 1.45m, and 1.5m)",
+    "TIRS": "Thermal Infrared Sensor (Measures surface brightness temperature and downward atmospheric IR radiation)",
+    "WS": "Wind Sensor (2 articulated booms measuring 2D/3D wind velocity vector and direction)",
+    "RDS": "Radiation and Dust Sensor (8 photodiodes measuring direct and diffuse solar irradiance and dust tau)",
+    "HS": "Relative Humidity Sensor (Capacitive transducer measuring atmospheric water vapor saturation percentage)"
+  },
+  "coordinate_location": "Jezero Crater, Mars (18.4447\u00b0N, 77.4508\u00b0E, -2570m elevation)",
+  "citation": "Rodriguez-Manfredi et al., The Mars Environmental Dynamics Analyzer (MEDA) Instrument Suite, Space Sci Rev, 217:77 (2021)."
+}

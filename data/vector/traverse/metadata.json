@@ -1,0 +1,8 @@
+{
+  "dataset_name": "NASA Mars 2020 Perseverance Rover Historical Traverse",
+  "source_archive": "NASA JPL Multi-Mission Geographic Information System (MMGIS) / PDS Rover Localization Bundle",
+  "format": "GeoJSON",
+  "odometer_distance_km": 28.5,
+  "sols_covered": "0 through 1230",
+  "coordinate_reference": "IAU2000:49900 (Planetographic East-positive degrees)"
+}

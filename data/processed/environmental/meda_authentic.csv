@@ -1,0 +1,9 @@
+sol,temp_min_c,temp_max_c,temp_mean_c,pressure_min_pa,pressure_max_pa,pressure_mean_pa,temp_samples,pressure_samples,archive_url
+1,-30.5,-0.97,-19.42,713.91,724.23,716.99,8975,2330,https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0000_0089/sol_0001/
+89,-81.57,-4.8,-53.6,758.64,778.04,768.04,507900,50511,https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0000_0089/sol_0089/
+190,-80.6,-1.82,-49.27,708.77,728.15,716.29,256690,51018,https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0180_0299/sol_0190/
+262,-66.7,-11.71,-38.42,644.7,654.19,649.18,68300,13269,https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0180_0299/sol_0262/
+510,-85.78,3.86,-55.69,770.98,807.47,793.75,161415,31632,https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0420_0539/sol_0510/
+800,-78.15,-5.83,-48.5,742.72,760.39,750.82,259975,51624,https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_0780_0899/sol_0800/
+1050,-74.3,1.91,-46.43,656.39,694.23,674.23,243270,48249,https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_1020_1139/sol_1050/
+1215,-81.5,6.16,-50.18,737.34,767.79,754.09,93695,17957,https://pds-atmospheres.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/data_calibrated_env/sol_1140_1259/sol_1215/

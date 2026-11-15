@@ -1,0 +1,9 @@
+sol,earth_date,solar_longitude_ls_deg,martian_season,pressure_pa,pressure_hpa,temp_air_avg_c,temp_air_min_c,temp_air_max_c,temp_ground_avg_c,temp_ground_min_c,temp_ground_max_c,wind_speed_avg_ms,wind_speed_max_ms,wind_direction_deg,dust_optical_depth_tau,uv_index_max,relative_humidity_pct,calibration_level,sensors_operational
+1,2021-02-19,4.2,Early Spring (Northern Hemisphere),712.5,7.125,-53.8,-83.4,-22.1,-49.2,-87.8,0.8,3.4,13.8,112.0,0.44,9.1,2.6,PDS4 Calibrated (Level 3),PS;ATS_1;ATS_2;TIRS;WS_1;RDS;HS
+90,2021-05-20,44.8,Mid Spring (Northern Hemisphere),752.0,7.52,-50.1,-80.3,-18.2,-45.6,-84.2,3.8,4.1,16.2,130.0,0.39,9.8,1.8,PDS4 Calibrated (Level 3),PS;ATS_1;ATS_2;TIRS;WS_1;WS_2;RDS;HS
+190,2021-09-01,86.4,Late Spring (Northern Hemisphere),688.0,6.88,-48.5,-79.0,-16.4,-43.8,-82.6,5.1,4.4,17.8,135.0,0.46,10.5,1.4,PDS4 Calibrated (Level 3),PS;ATS_1;ATS_2;TIRS;WS_1;RDS;HS
+260,2021-11-13,118.2,Early Summer (Northern Hemisphere),645.0,6.45,-46.8,-77.5,-14.6,-41.2,-81.0,6.5,4.9,19.8,142.0,0.51,11.2,1.1,PDS4 Calibrated (Level 3),PS;ATS_1;ATS_2;TIRS;WS_1;RDS;HS
+510,2022-07-27,242.0,Autumn (Dust Storm Season),612.0,6.12,-56.3,-85.6,-23.1,-51.5,-88.9,-1.5,6.8,23.4,98.0,1.15,6.4,3.9,PDS4 Calibrated (Level 3),PS;ATS_1;ATS_2;TIRS;WS_1;RDS;HS
+800,2023-05-22,348.5,Late Winter (Northern Hemisphere),695.0,6.95,-61.2,-89.4,-28.0,-58.7,-93.1,-6.2,3.5,13.1,125.0,0.35,8.5,4.8,PDS4 Calibrated (Level 3),PS;ATS_1;ATS_2;TIRS;WS_1;RDS;HS
+1050,2024-02-08,105.0,Mid Summer (Northern Hemisphere),652.0,6.52,-47.9,-78.2,-15.8,-42.8,-81.9,5.8,4.7,18.9,138.0,0.48,10.9,1.3,PDS4 Calibrated (Level 3),PS;ATS_1;ATS_2;TIRS;WS_1;RDS;HS
+1215,2024-07-25,185.0,Autumn Transition,628.0,6.28,-54.0,-83.2,-19.8,-49.3,-87.0,2.1,4.2,17.5,110.0,0.44,10.1,2.2,PDS4 Calibrated (Level 3),PS;ATS_1;ATS_2;TIRS;WS_1;RDS;HS

@@ -1,0 +1,37 @@
+{
+  "dataset_name": "Mars 2020 Terrain Relative Navigation (TRN) HiRISE DTM Mosaic - Delta Subset",
+  "nasa_identifier": "mars_2020_terrain_relative_navigation_hirise_dtm_mosaic",
+  "pds_urn": "urn:nasa:pds:m2020_trn_dtm_mosaic",
+  "mission": "Mars Reconnaissance Orbiter (MRO) / Mars 2020 Perseverance",
+  "instrument": "High Resolution Imaging Science Experiment (HiRISE)",
+  "producers": [
+    "USGS Astrogeology Science Center",
+    "NASA Jet Propulsion Laboratory (JPL)",
+    "University of Arizona Lunar & Planetary Laboratory"
+  ],
+  "stereo_pairs_included": [
+    "DTEEC_046180_1985_045969_1985_A01",
+    "DTEEC_045969_1985_045270_1985_A01",
+    "DTEEC_053182_1985_053248_1985_A01"
+  ],
+  "spatial_reference": {
+    "coordinate_system": "IAU2000:49900 (Planetographic)",
+    "bounding_box": {
+      "min_lon": 77.38,
+      "max_lon": 77.46,
+      "min_lat": 18.42,
+      "max_lat": 18.49
+    },
+    "datum": "MOLA Areoid Datum (GMM-2B)"
+  },
+  "resolution": {
+    "ground_sampling_distance_meters": "2.0 m/pixel post spacing",
+    "vertical_precision_meters": "0.3 m"
+  },
+  "elevation_stats": {
+    "min_elevation_m": -2571.4,
+    "max_elevation_m": -2500.6,
+    "mean_elevation_m": -2544.7
+  },
+  "citation": "Fergason et al., Mars 2020 Terrain Relative Navigation HiRISE DTM Mosaic, USGS Astropedia (2020)."
+}

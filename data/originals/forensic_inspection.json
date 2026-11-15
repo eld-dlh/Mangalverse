@@ -1,0 +1,95 @@
+{
+  "ctx_dem": {
+    "path": "data\\originals\\ctx\\M20_JezeroCrater_CTXDEM_20m.tif",
+    "sha256": "ba7f706ea1b5d63a562f28a7dcf7a7f3c79bce7f048e6974b57e8a33c30d1ba2",
+    "width": 4456,
+    "height": 5067,
+    "crs_string": "PROJCS[\"Jezero_Crater_Projection\",GEOGCS[\"GCS_Mars_2000_Sphere\",DATUM[\"Mars_2000_(Sphere)\",SPHEROID[\"Mars_2000_Sphere\",3396190,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",18.4663],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "crs_wkt": "PROJCS[\"Jezero_Crater_Projection\",GEOGCS[\"GCS_Mars_2000_Sphere\",DATUM[\"Mars_2000_(Sphere)\",SPHEROID[\"Mars_2000_Sphere\",3396190,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",18.4663],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "bounds": {
+      "left": 4328999.999999998,
+      "bottom": 1042080.0000000028,
+      "right": 4418119.999999998,
+      "top": 1143420.0000000028
+    },
+    "transform": [
+      20.0,
+      0.0,
+      4328999.999999998,
+      0.0,
+      -20.0,
+      1143420.0000000028
+    ],
+    "dtypes": [
+      "float32"
+    ],
+    "nodata": -3.4028234663852886e+38,
+    "count": 1,
+    "res": [
+      20.0,
+      20.0
+    ]
+  },
+  "ctx_ortho": {
+    "path": "data\\originals\\ctx\\M20_JezeroCrater_CTXortho_mosaic_5m.tif",
+    "sha256": "cd9f4b2154fdd43e8c17abfbae63210b72507db2209d1d7db63f6f855b18d2df",
+    "width": 17766,
+    "height": 20234,
+    "crs_string": "PROJCS[\"Equirectangular\",GEOGCS[\"GCS_Geographic_Coordinate_System\",DATUM[\"D_MARS\",SPHEROID[\"MARS\",3396190,0]],PRIMEM[\"Reference Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",18.4663],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "crs_wkt": "PROJCS[\"Equirectangular\",GEOGCS[\"GCS_Geographic_Coordinate_System\",DATUM[\"D_MARS\",SPHEROID[\"MARS\",3396190,0]],PRIMEM[\"Reference Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",18.4663],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "bounds": {
+      "left": 4329192.10812596,
+      "bottom": 1042131.6352073746,
+      "right": 4418058.78925043,
+      "top": 1143347.424174998
+    },
+    "transform": [
+      5.002064681102627,
+      0.0,
+      4329192.10812596,
+      0.0,
+      -5.002262971613293,
+      1143347.424174998
+    ],
+    "dtypes": [
+      "uint8"
+    ],
+    "nodata": null,
+    "count": 1,
+    "res": [
+      5.002064681102627,
+      5.002262971613293
+    ]
+  },
+  "hirise_dtm": {
+    "path": "data\\originals\\hirise\\DTM_MOLAtopography_DeltaGeoid_Jezero_C_Edited_affine_1m_Eqc_latTs0_lon0.tif",
+    "sha256": "0c681fa0c2fa72ec2253d09ed8643d5794ea0c3575f5fa953d470cc0beeb1751",
+    "width": 7061,
+    "height": 14445,
+    "crs_string": "ESRI:103885",
+    "crs_wkt": "PROJCS[\"Equirectangular Mars 2000 Sphere IAU\",GEOGCS[\"D_Mars_2000_Sphere\",DATUM[\"Mars_2000_(Sphere)\",SPHEROID[\"Mars_2000_Sphere_IAU\",3396190,0],AUTHORITY[\"ESRI\",\"106971\"]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",0],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "bounds": {
+      "left": 4586831.543631437,
+      "bottom": 1085137.023003999,
+      "right": 4593892.543631437,
+      "top": 1099582.023003999
+    },
+    "transform": [
+      1.0,
+      0.0,
+      4586831.543631437,
+      0.0,
+      -1.0,
+      1099582.023003999
+    ],
+    "dtypes": [
+      "float32"
+    ],
+    "nodata": -32768.0,
+    "count": 1,
+    "res": [
+      1.0,
+      1.0
+    ]
+  }
+}

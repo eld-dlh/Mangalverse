@@ -1,0 +1,11 @@
+{
+  "dataset_name": "Perseverance Rover Verified Scientific Targets & Samples",
+  "format": "GeoJSON (RFC 7946)",
+  "spatial_reference": "Planetographic East-positive (Lon/Lat degrees)",
+  "features_count": 13,
+  "source_nodes": [
+    "NASA PDS Geosciences Node",
+    "NASA JPL Mars 2020 Science Operations"
+  ],
+  "primary_sample_cache_status": "Cached inside rover belly sample handling carousel; 10 backup tubes deposited at Three Forks Surface Depot."
+}

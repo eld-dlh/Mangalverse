@@ -1,0 +1,28 @@
+{
+  "ctx_dem": {
+    "logical_identifier": "urn:nasa:pds:mars2020_ctx_basemap_2021:data:m20_ctxdem_mosaic",
+    "title": "Mars 2020 Science Investigation CTX DEM Mosaic",
+    "version_id": "1.0",
+    "processing_level": "Derived",
+    "west_lon": "76.9974370614600048",
+    "east_lon": "78.5825633240881842",
+    "north_lat": "19.2901870068661516",
+    "south_lat": "17.5805199105447514",
+    "pixel_resolution_x": "20",
+    "pixel_resolution_y": "20",
+    "source_xml": "data\\originals\\ctx\\M20_JezeroCrater_CTXDEM_20m.xml"
+  },
+  "ctx_ortho": {
+    "logical_identifier": "urn:nasa:pds:mars2020_ctx_basemap_2021:data:m20_ctxortho_mosaic",
+    "title": "Mars 2020 Science Investigation CTX Orthoimage Mosaic",
+    "version_id": "1.0",
+    "processing_level": "Derived",
+    "west_lon": "77.0008539783779469",
+    "east_lon": "78.581474603636039",
+    "north_lat": "19.2889626088002402",
+    "south_lat": "17.5813910277250862",
+    "pixel_resolution_x": "5.00206468110262659",
+    "pixel_resolution_y": "5.00226297161329292",
+    "source_xml": "data\\originals\\ctx\\M20_JezeroCrater_CTXortho_mosaic_5m.xml"
+  }
+}
