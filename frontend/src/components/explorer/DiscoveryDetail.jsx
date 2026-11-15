@@ -33,7 +33,7 @@ climate and water activity — essential context for assessing Mars's past habit
 const WHY_LOW = `Geological diversity like this helps build a complete picture of Mars's geological
 history. Even sites with lower biosignature potential constrain the geological timeline.`
 
-export function DiscoveryDetail({ discovery, currentMedaReport, onExplore, onViewMission, onClose }) {
+export function DiscoveryDetail({ discovery, currentMedaReport, onExplore, onViewMission, onClose, onOpenDossier }) {
   if (!discovery) return null
 
   const name     = discovery.target_name || discovery.name || 'Unknown Target'
@@ -199,6 +199,15 @@ export function DiscoveryDetail({ discovery, currentMedaReport, onExplore, onVie
           <IconCompass className="w-4 h-4" />
           Explore This Location
         </button>
+        {onOpenDossier && (
+          <button
+            onClick={() => onOpenDossier(discovery)}
+            className="w-full py-2 rounded-lg bg-violet-900/20 border border-violet-700/40 text-violet-400 font-mono text-xs hover:bg-violet-900/40 hover:border-violet-500/60 flex items-center justify-center gap-2 transition"
+          >
+            <IconFlask className="w-3.5 h-3.5" />
+            Full Scientific Dossier
+          </button>
+        )}
         <button
           onClick={onViewMission}
           className="w-full py-2 rounded-lg bg-mars-panel border border-mars-border text-slate-300 font-mono text-xs hover:border-mars-cyan/50 hover:text-mars-cyan flex items-center justify-center gap-2 transition"

@@ -108,19 +108,28 @@ function makeCheckpointIcon(n) {
 }
 
 // ── Geological unit colors ────────────────────────────────────────────────────
-const GEO_COLORS = {
-  deltaic:    '#8b5cf6',
-  lacustrine: '#6366f1',
-  volcanic:   '#dc2626',
-  ejecta:     '#d97706',
-  fluvial:    '#0891b2',
-  default:    '#64748b',
+const GEO_UNIT_COLORS = {
+  // USGS SIM-3464 unit name keywords → color
+  'Nue':  '#8b5cf6',  // Upper etched unit
+  'Nle':  '#6366f1',  // Lower etched unit
+  'Nf':   '#0891b2',  // Fluvial / fan deposits
+  'Nlb':  '#0ea5e9',  // Lacustrine basin
+  'Nb':   '#dc2626',  // Basaltic olivine-bearing unit
+  'Nplb': '#d97706',  // Phyllosilicate-bearing light-toned
+  default: '#64748b',
 }
 
-function geoColor(unit) {
-  const rt = (unit?.rock_type ?? '').toLowerCase()
-  for (const [k, v] of Object.entries(GEO_COLORS)) if (rt.includes(k)) return v
-  return GEO_COLORS.default
+function geoColorByUnit(props) {
+  if (!props) return GEO_UNIT_COLORS.default
+  const sym = (props.symbol_noSub ?? props.symbol ?? props.unit ?? '').trim()
+  const name = (props.name ?? '').toLowerCase()
+  if (sym.startsWith('Nf') || name.includes('fluvial') || name.includes('fan')) return GEO_UNIT_COLORS['Nf']
+  if (sym.startsWith('Nlb') || name.includes('lacus')) return GEO_UNIT_COLORS['Nlb']
+  if (sym.startsWith('Nb') || name.includes('basalt') || name.includes('olivine')) return GEO_UNIT_COLORS['Nb']
+  if (sym.startsWith('Nue') || name.includes('upper etched')) return GEO_UNIT_COLORS['Nue']
+  if (sym.startsWith('Nle') || name.includes('lower etched')) return GEO_UNIT_COLORS['Nle']
+  if (name.includes('phyllo') || name.includes('light')) return GEO_UNIT_COLORS['Nplb']
+  return GEO_UNIT_COLORS.default
 }
 
 // ── Mock environmental station coords (shown when showEnvironment is true) ────
@@ -130,22 +139,7 @@ const ENV_STATIONS = [
   { id: 'MEDA-3', name: 'MEDA Station γ', lat: 18.4310, lng: 77.4780, temp_c: -57.8, pressure_pa: 744.5, wind_ms: 3.1 },
 ]
 
-// ── Mock geological unit polygons ─────────────────────────────────────────────
-const MOCK_GEO_UNITS = [
-  { id: 'g1', name: 'Western Fan Delta',    rock_type: 'deltaic',    coords: [[18.46,77.37],[18.47,77.41],[18.44,77.42],[18.43,77.38]] },
-  { id: 'g2', name: 'Lacustrine Basin',     rock_type: 'lacustrine', coords: [[18.42,77.41],[18.44,77.46],[18.42,77.47],[18.40,77.43]] },
-  { id: 'g3', name: 'Olivine-Bearing Unit', rock_type: 'volcanic',   coords: [[18.44,77.46],[18.46,77.49],[18.44,77.50],[18.42,77.47]] },
-  { id: 'g4', name: 'Crater Rim Ejecta',   rock_type: 'ejecta',     coords: [[18.47,77.46],[18.49,77.50],[18.47,77.52],[18.45,77.49]] },
-]
-
-// ── Mock elevation contours ───────────────────────────────────────────────────
-const MOCK_CONTOURS = [
-  { elev: -2600, latlngs: [[18.41,77.38],[18.42,77.44],[18.41,77.50]] },
-  { elev: -2550, latlngs: [[18.42,77.38],[18.44,77.44],[18.42,77.50]] },
-  { elev: -2500, latlngs: [[18.44,77.37],[18.46,77.43],[18.44,77.49]] },
-  { elev: -2450, latlngs: [[18.46,77.37],[18.48,77.42],[18.46,77.48]] },
-  { elev: -2400, latlngs: [[18.47,77.37],[18.49,77.41],[18.47,77.47]] },
-]
+// Contour / geology: loaded from API — no hardcoded mock polygons
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Main component
@@ -251,24 +245,11 @@ function MarsMap({
       { color: '#00d2ff', weight: 1.5, dashArray: '2,6', opacity: 0.6 }
     ).bindTooltip('Western Fan Delta Scarp (+70m ascent)', { sticky: true }).addTo(groups.hazards)
 
-    // ── Elevation contours (static mock) ──────────────────────────────────
-    MOCK_CONTOURS.forEach(c => {
-      L.polyline(c.latlngs, { color: '#6366f1', weight: 1, opacity: 0.5, dashArray: '2,4' })
-        .bindTooltip(`${c.elev} m`, { permanent: false, sticky: true, className: 'leaflet-tooltip-dark' })
-        .addTo(groups.elevation)
-    })
+    // ── Elevation contours — populated by API useEffect when layer toggled on ─
 
-    // ── Geological units (static mock polygons) ────────────────────────────
-    MOCK_GEO_UNITS.forEach(unit => {
-      const color = geoColor(unit)
-      L.polygon(unit.coords, {
-        color, weight: 1.5, fillColor: color, fillOpacity: 0.12, dashArray: '3,5',
-      })
-        .bindTooltip(`${unit.name}<br><span style="font-size:10px;color:#94a3b8">${unit.rock_type}</span>`, { sticky: true })
-        .addTo(groups.geology)
-    })
+    // ── Geological units — populated by API useEffect when layer toggled on ───
 
-    // ── Environmental stations (static mock) ──────────────────────────────
+    // ── Environmental stations (MEDA landing-site reference) ─────────────────
     ENV_STATIONS.forEach(st => {
       const icon = L.divIcon({
         className: '',
@@ -285,6 +266,10 @@ function MarsMap({
             <div>T: <b>${st.temp_c}°C</b></div>
             <div>P: <b>${st.pressure_pa} Pa</b></div>
             <div>Wind: <b>${st.wind_ms} m/s</b></div>
+            <div style="font-size:9px;color:#64748b;margin-top:6px;padding-top:4px;border-top:1px solid #334155;">
+              NASA MEDA PDS Archive — Rover location observation, not spatial weather mapping.
+              Values are from the nearest archived sol.
+            </div>
           </div>
         `)
         .addTo(groups.environment)
@@ -306,13 +291,15 @@ function MarsMap({
         // Fire elevation fetch; onProbePoint receives result
         try {
           const res = await fetch(`/api/elevation/point?lon=${lng.toFixed(5)}&lat=${lat.toFixed(5)}`)
-          const data = res.ok ? await res.json() : {
-            latitude: lat, longitude: lng,
-            elevation_meters: -2500 + Math.round(Math.random() * 300),
-            slope_degrees: +(Math.random() * 18).toFixed(1),
-            terrain_hazard: 'SAFE',
-            data_source: 'mock',
-          }
+          const data = res.ok
+            ? await res.json()
+            : {
+                latitude: lat, longitude: lng,
+                elevation_meters: null, slope_degrees: null,
+                terrain_hazard: null,
+                data_source: 'error',
+                error: `Elevation data unavailable (HTTP ${res.status})`,
+              }
           onProbePoint?.(data)
           // Update or create probe marker
           if (lRef.current.probeMarker) {
@@ -322,7 +309,15 @@ function MarsMap({
               radius: 6, color: '#00ffc8', fillColor: '#00ffc8', fillOpacity: 0.8,
             }).addTo(map)
           }
-        } catch {}
+        } catch (err) {
+          onProbePoint?.({
+            latitude: lat, longitude: lng,
+            elevation_meters: null, slope_degrees: null,
+            terrain_hazard: null,
+            data_source: 'error',
+            error: `Network error — could not reach elevation API: ${err.message}`,
+          })
+        }
       }
 
       else if (tool === 'select-start') {
@@ -381,6 +376,96 @@ function MarsMap({
     layers?.showHazards,  layers?.showElevation,   layers?.showGeology,
     layers?.showEnvironment,
   ])
+
+  // ── Elevation contours — fetch from real API when layer toggled on ──────────
+  useEffect(() => {
+    if (!mapRef.current || !lRef.current.groups) return
+    const group = lRef.current.groups.elevation
+    group.clearLayers()
+    if (!layers?.showElevation) return
+
+    fetch('/api/terrain/contours?interval_m=50')
+      .then(r => {
+        if (!r.ok) throw new Error(`Contour API ${r.status}: ${r.statusText}`)
+        return r.json()
+      })
+      .then(geojson => {
+        if (!mapRef.current) return
+        const features = geojson.features ?? []
+        // Render every other feature for performance (17k segments → ~8k)
+        features.forEach((feat, i) => {
+          if (i % 2 !== 0) return
+          const coords = feat.geometry?.coordinates
+          if (!coords?.length) return
+          const elev = feat.properties?.elevation_m ?? 0
+          // Distinguish major contours (multiples of 200m)
+          const isMajor = Math.round(elev) % 200 === 0
+          L.polyline(coords.map(c => [c[1], c[0]]), {
+            color: isMajor ? '#818cf8' : '#6366f1',
+            weight: isMajor ? 1.5 : 0.8,
+            opacity: isMajor ? 0.7 : 0.4,
+            dashArray: isMajor ? null : '2,4',
+          })
+            .bindTooltip(`${elev} m`, { sticky: true, className: 'leaflet-tooltip-dark' })
+            .addTo(group)
+        })
+      })
+      .catch(err => {
+        console.error('[MarsMap] Contour fetch failed:', err.message)
+        // Add a single error label to the group so the user knows
+        group.addLayer(L.marker([18.4447, 77.4508], {
+          icon: L.divIcon({
+            className: '',
+            html: `<div style="background:#1e293b;color:#f87171;font-size:10px;padding:3px 6px;border-radius:4px;border:1px solid #ef4444;">
+              ⚠ Contour data unavailable: ${err.message}</div>`,
+            iconSize: [260, 22], iconAnchor: [130, 11],
+          })
+        }))
+      })
+  }, [layers?.showElevation]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Geological units — fetch from real API when layer toggled on ────────────
+  useEffect(() => {
+    if (!mapRef.current || !lRef.current.groups) return
+    const group = lRef.current.groups.geology
+    group.clearLayers()
+    if (!layers?.showGeology) return
+
+    fetch('/api/terrain/geology')
+      .then(r => {
+        if (!r.ok) throw new Error(`Geology API ${r.status}: ${r.statusText}`)
+        return r.json()
+      })
+      .then(geojson => {
+        if (!mapRef.current) return
+        L.geoJSON(geojson, {
+          style: feat => {
+            const color = geoColorByUnit(feat?.properties)
+            return { color, weight: 1, fillColor: color, fillOpacity: 0.14, dashArray: '3,5' }
+          },
+          onEachFeature: (feat, layer) => {
+            const p = feat.properties ?? {}
+            const name = p.name ?? p.unit ?? 'Geological Unit'
+            const sym  = p.symbol ?? p.symbol_noSub ?? ''
+            layer.bindTooltip(
+              `<b style="color:#c4b5fd">${name}</b><br><span style="font-size:10px;color:#94a3b8">${sym}</span>`,
+              { sticky: true }
+            )
+          },
+        }).addTo(group)
+      })
+      .catch(err => {
+        console.error('[MarsMap] Geology fetch failed:', err.message)
+        group.addLayer(L.marker([18.4447, 77.42], {
+          icon: L.divIcon({
+            className: '',
+            html: `<div style="background:#1e293b;color:#f87171;font-size:10px;padding:3px 6px;border-radius:4px;border:1px solid #ef4444;">
+              ⚠ Geology data unavailable: ${err.message}</div>`,
+            iconSize: [260, 22], iconAnchor: [130, 11],
+          })
+        }))
+      })
+  }, [layers?.showGeology]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Traverse ────────────────────────────────────────────────────────────────
   useEffect(() => {

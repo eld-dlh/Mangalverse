@@ -4,6 +4,7 @@ import {
   IconCompass, IconThermometer, IconLayers,
   IconGauge, IconWind, IconShield, IconAlert, IconCheck
 } from './Icons'
+import ElevationSvgChart from './ElevationChart'
 
 // ── Step badge ───────────────────────────────────────────────────────────────
 function StepBadge({ n }) {
@@ -213,6 +214,43 @@ function PlannerTab({
               ))}
             </div>
           )}
+
+          {/* Route elevation profile */}
+          {routeResult.elevation_profile?.length >= 2 && (
+            <div className="pt-2 border-t border-mars-border space-y-1">
+              <div className="text-[11px] font-mono text-slate-400 font-semibold uppercase tracking-wider">Route Elevation Profile</div>
+              <div className="h-20 bg-mars-darker rounded border border-mars-border overflow-hidden">
+                <ElevationSvgChart profile={routeResult.elevation_profile} onHover={() => {}} />
+              </div>
+            </div>
+          )}
+
+          {/* Mission itinerary */}
+          {selectedCheckpointIds.length > 0 && (
+            <div className="space-y-2 pt-2 border-t border-mars-border">
+              <div className="text-[11px] font-mono text-slate-400 font-semibold uppercase tracking-wider">Mission Itinerary</div>
+              {selectedCheckpointIds.map((id, idx) => {
+                const disc = filteredDiscoveries.find(d => d.id === id)
+                if (!disc) return null
+                return (
+                  <div key={id} className="p-2 rounded bg-mars-panel/60 border border-mars-border border-l-2 border-l-mars-cyan text-xs font-mono space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="w-4 h-4 rounded-full bg-mars-cyan text-mars-darker flex items-center justify-center text-[9px] font-bold shrink-0">{idx + 1}</span>
+                      <span className="font-semibold text-slate-200 truncate">{disc.target_name}</span>
+                      {disc.sample_acquired && <span className="text-[9px] text-emerald-400 shrink-0">🧪 Cached</span>}
+                    </div>
+                    <div className="text-slate-500">{disc.geological_formation} · Sol {disc.sol}</div>
+                    <div className="text-slate-400 leading-relaxed">
+                      {disc.scientific_summary?.slice(0, 120)}{disc.scientific_summary?.length > 120 ? '…' : ''}
+                    </div>
+                    {disc.nasa_pds_citation && (
+                      <div className="text-[9px] text-slate-600">{disc.nasa_pds_citation}</div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -357,6 +395,7 @@ function LayersTab({ layers, setLayers }) {
     { id: 'OPM',  name: 'OpenPlanetaryMap Mars Surface', desc: 'MDIM 2.1 Imagery + Nomenclature' },
     { id: 'MOLA', name: 'USGS MOLA Color Topography',   desc: 'Color-coded elevation benchmarks' },
     { id: 'SOIL', name: 'Mars Shaded Relief & Morphology', desc: 'Monochrome surface texture' },
+    { id: 'CTX',  name: 'NASA CTX Surface Imagery',     desc: '⚠ Tiles not generated locally — run scripts/generate_contours.py then gdal2tiles to enable' },
   ]
   const overlays = [
     { key: 'showTraverse',    label: 'Perseverance Rover Traverse (Sols 0–1230)',  color: '#ff6b35' },

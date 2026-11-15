@@ -63,32 +63,34 @@ function TerrainView({ point }) {
       <KV label="Longitude" value={`${point.longitude ?? point.lng}°E`} valueClass="text-mars-cyan" />
 
       <SectionHead label="Terrain" />
-      <KV label="Elevation" value={`${point.elevation_meters ?? point.elevation_m ?? '—'} m`} valueClass="text-mars-gold" />
-      <div className="flex items-center justify-between gap-2 py-0.5">
-        <span className="text-[10px] font-mono text-slate-500">Slope</span>
-        <div className="flex items-center gap-2">
-          <span className={`text-[10px] font-mono ${
-            (point.slope_degrees ?? 0) > 15 ? 'text-red-400' :
-            (point.slope_degrees ?? 0) > 10 ? 'text-amber-400' : 'text-emerald-400'
-          }`}>
-            {point.slope_degrees ?? '—'}°
-          </span>
-          {point.terrain_hazard && <HazardBadge level={point.terrain_hazard} />}
+      {point.error ? (
+        <div className="mt-1 flex items-start gap-1.5 p-1.5 rounded bg-red-950/30 border border-red-800/40 text-[10px] text-red-400 font-mono">
+          <IconAlert className="w-3 h-3 shrink-0 mt-0.5" />
+          <span>{point.error}</span>
         </div>
-      </div>
+      ) : (
+        <>
+          <KV label="Elevation" value={`${point.elevation_meters ?? point.elevation_m ?? '—'} m`} valueClass="text-mars-gold" />
+          <div className="flex items-center justify-between gap-2 py-0.5">
+            <span className="text-[10px] font-mono text-slate-500">Slope</span>
+            <div className="flex items-center gap-2">
+              <span className={`text-[10px] font-mono ${
+                (point.slope_degrees ?? 0) > 15 ? 'text-red-400' :
+                (point.slope_degrees ?? 0) > 10 ? 'text-amber-400' : 'text-emerald-400'
+              }`}>
+                {point.slope_degrees ?? '—'}°
+              </span>
+              {point.terrain_hazard && <HazardBadge level={point.terrain_hazard} />}
+            </div>
+          </div>
+        </>
+      )}
 
-      {point.data_source && (
+      {point.data_source && point.data_source !== 'error' && (
         <>
           <SectionHead label="Provenance" />
           <KV label="Data source" value={point.data_source} />
         </>
-      )}
-
-      {point.data_source === 'mock' && (
-        <div className="mt-2 flex items-start gap-1.5 p-1.5 rounded bg-amber-950/30 border border-amber-800/40 text-[10px] text-amber-400 font-mono">
-          <IconAlert className="w-3 h-3 shrink-0 mt-0.5" />
-          <span>Using estimated data — backend not connected</span>
-        </div>
       )}
     </>
   )
@@ -200,7 +202,7 @@ function WaypointView({ point, role }) {
 }
 
 // ── Main exported component ───────────────────────────────────────────────────
-function LocationInfoPanel({ selection, onClose }) {
+function LocationInfoPanel({ selection, onClose, onOpenDossier }) {
   if (!selection) return null
 
   const { type, data } = selection  // type: 'probe' | 'discovery' | 'start' | 'dest' | 'checkpoint'
@@ -261,6 +263,14 @@ function LocationInfoPanel({ selection, onClose }) {
               Checkpoint
             </button>
           </div>
+          {onOpenDossier && (
+            <button
+              onClick={() => onOpenDossier(data)}
+              className="w-full py-1.5 rounded bg-violet-900/30 border border-violet-700/40 text-[10px] font-mono text-violet-400 hover:bg-violet-900/50 transition-colors"
+            >
+              Full Scientific Dossier
+            </button>
+          )}
         </div>
       )}
     </aside>

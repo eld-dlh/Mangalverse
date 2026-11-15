@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Mars Explorer API Service
  * Each function tries the real backend (/api/...) and falls back to mock data on error.
  */
@@ -411,14 +411,11 @@ export async function calculateRoute(payload) {
 
 /**
  * Fetch a comparison of three route strategies (shortest / safest / balanced).
- * @param {Record<string, unknown>} payload  { start, end, waypoints? }
- * @returns {Promise<typeof MOCK_ROUTE_COMPARISON>}
+ * Does NOT fall back to mock data. Throws on failure so the caller can surface the error.
+ * @param {Record<string, unknown>} payload
+ * @returns {Promise<{ shortest: object, safest: object, balanced: object }>}
  */
 export async function fetchRouteComparison(payload) {
-  try {
-    return await post('/api/route/compare', payload);
-  } catch {
-    console.warn('[api] fetchRouteComparison → using mock data');
-    return MOCK_ROUTE_COMPARISON;
-  }
+  // Per project rules: real errors must be displayed, not silently swallowed.
+  return await post('/api/route/compare', payload);
 }

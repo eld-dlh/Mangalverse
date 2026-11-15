@@ -165,16 +165,19 @@ function App() {
     try {
       const { fetchRouteComparison } = await import('./services/api')
       const data = await fetchRouteComparison({
-        start:              [startPoint.lng, startPoint.lat],
-        end:                [destPoint.lng,  destPoint.lat],
-        waypoints:          mapCheckpoints.map(cp => [cp.lng, cp.lat]),
+        start_point:        [startPoint.lng, startPoint.lat],
+        destination_point:  [destPoint.lng,  destPoint.lat],
+        checkpoint_coords:  mapCheckpoints.map(cp => [cp.lng, cp.lat]),
         checkpoint_ids:     selectedCheckpointIds,
         max_safe_slope_deg: maxSafeSlope,
         avoid_sand_hazards: avoidSand,
+        speed_kmh:          0.12,
       })
       setRouteComparison(data)
-    } catch (_) {
-      // mock fallback already handled in api.js
+    } catch (err) {
+      // Surface the real error — do not fall back to fake mock data
+      console.error('[App] Route comparison failed:', err.message)
+      setRightPanel({ type: 'routes', error: err.message })
     } finally {
       setIsComparingRoutes(false)
     }
@@ -336,6 +339,7 @@ function App() {
             onPrev={() => setCurrentWaypointIndex(i => Math.max(0, i - 1))}
             onNext={() => setCurrentWaypointIndex(i => Math.min(selectedCheckpointIds.length - 1, i + 1))}
             onSwitchToMission={() => handleSwitchMode('MISSION_CONTROL')}
+            onOpenDossier={(disc) => setSelectedDiscovery(disc)}
             onFlyToDiscovery={(disc) => {
               const lat = disc.latitude ?? disc.lat
               const lon = disc.longitude ?? disc.lon
@@ -350,7 +354,7 @@ function App() {
         <div className="flex-1 flex flex-col relative h-full overflow-hidden min-w-0">
           <MarsMap
             traverseGeoJSON={traverseGeoJSON}
-            discoveries={discoveries}
+            discoveries={selectedObjectiveId ? filteredDiscoveries : discoveries}
             selectedCheckpointIds={selectedCheckpointIds}
             selectedObjectiveId={selectedObjectiveId}
             layers={layers}
@@ -393,6 +397,7 @@ function App() {
           <LocationInfoPanel
             selection={rightPanel.data}
             onClose={() => setRightPanel(null)}
+            onOpenDossier={(disc) => setSelectedDiscovery(disc)}
           />
         )}
 
@@ -406,6 +411,8 @@ function App() {
             onClose={() => setRightPanel(null)}
             startPoint={startPoint}
             destPoint={destPoint}
+            error={rightPanel?.error}
+            onRouteHoverPoint={setRouteHoverPoint}
           />
         )}
 

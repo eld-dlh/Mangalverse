@@ -3,10 +3,11 @@ API router for Jezero Crater terrain, topography, and DEM trafficability analysi
 """
 from fastapi import APIRouter, HTTPException, Query
 from typing import Optional, Dict, Any
+import json
 import numpy as np
 
 from app.services.dem_service import jezero_dem_service
-from app.config import JEZERO_BBOX, NASA_ATTRIBUTIONS
+from app.config import JEZERO_BBOX, NASA_ATTRIBUTIONS, AUTHENTIC_GEOLOGY_PATH
 from app.models.terrain import TerrainPointAssessment, TerrainSummaryResponse, RasterMetadata
 
 router = APIRouter(prefix="/api/terrain", tags=["Topography & Terrain Engine"])
@@ -165,3 +166,60 @@ def get_terrain_data(
         }
 
     return summary_props
+
+
+# ── Geology GeoJSON (USGS sim3464 Nili Fossae / Jezero Crater mapping) ───────
+
+@router.get("/geology", response_model=Any)
+def get_geological_units():
+    """
+    Serve authentic USGS Jezero Crater geological unit polygons as GeoJSON.
+    Source: Goudge et al. (2015) USGS SIM-3464 Nili Fossae geological map,
+    converted from Nili.gdb geodatabase.
+    """
+    if not AUTHENTIC_GEOLOGY_PATH.exists():
+        raise HTTPException(
+            status_code=404,
+            detail=(
+                "Geology GeoJSON not found on server. "
+                f"Expected path: {AUTHENTIC_GEOLOGY_PATH}. "
+                "Ensure data/processed/vector/jezero_geological_units_authentic.geojson exists."
+            )
+        )
+    try:
+        with open(AUTHENTIC_GEOLOGY_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error reading geology GeoJSON: {e}")
+
+
+# ── Elevation Contours (generated from authentic CTX DEM) ────────────────────
+
+from app.config import AUTHENTIC_DATA_DIR
+
+CONTOUR_DATA_DIR = AUTHENTIC_DATA_DIR / "vector"
+
+@router.get("/contours", response_model=Any)
+def get_elevation_contours(interval_m: int = Query(50, description="Contour interval in metres (default: 50)")):
+    """
+    Serve pre-generated elevation contour lines as GeoJSON.
+    Contours are derived from the authentic USGS Jezero CTX DEM at the requested interval.
+
+    Generate locally with: python scripts/generate_contours.py
+    """
+    path = CONTOUR_DATA_DIR / f"jezero_contours_{interval_m}m.geojson"
+    if not path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail=(
+                f"Contour data for {interval_m}m interval not found. "
+                f"Expected: {path}. "
+                "Run: python scripts/generate_contours.py"
+            )
+        )
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error reading contour GeoJSON: {e}")

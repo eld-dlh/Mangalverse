@@ -174,3 +174,72 @@ def calculate_route_legacy(request: RouteCalculationRequest):
 def calculate_routes_alias(request: RouteCalculationRequest):
     """Alias for route calculation."""
     return _validate_and_plan_route(request, format_type="json")
+
+
+@router.post("/api/route/compare", response_model=Any)
+def compare_routes(request: RouteCalculationRequest):
+    """
+    Calculate three terrain-aware routes with distinct optimization preferences.
+    Returns SHORTEST, SAFEST and BALANCED routes from the A* pathfinder,
+    each using different cost weights over the authentic CTX DEM.
+    """
+    # Validate common inputs once
+    if request.max_safe_slope_deg < 1.0 or request.max_safe_slope_deg > 45.0:
+        raise HTTPException(status_code=400, detail=f"Invalid max_safe_slope_deg: {request.max_safe_slope_deg}. Must be 1–45°.")
+    if request.speed_kmh <= 0.0 or request.speed_kmh > 5.0:
+        raise HTTPException(status_code=400, detail=f"Invalid speed_kmh: {request.speed_kmh}. Must be 0.01–5.0 km/h.")
+
+    start = request.start_point or [JEZERO_BBOX["center_lon"], JEZERO_BBOX["center_lat"]]
+
+    # Resolve checkpoint IDs → coordinates (same logic as _validate_and_plan_route)
+    checkpoint_coords: list = []
+    checkpoint_ids = list(request.checkpoint_ids or [])
+
+    if request.objective_id and not checkpoint_ids and not request.checkpoint_coords:
+        try:
+            cat = mission_service.get_category_by_id(request.objective_id)
+            if cat:
+                checkpoint_ids = cat.recommended_checkpoint_ids
+            else:
+                db_obj = discovery_service.get_objective_by_id(request.objective_id.upper())
+                if db_obj:
+                    checkpoint_ids = db_obj.recommended_checkpoint_ids
+        except Exception:
+            pass
+
+    for cid in checkpoint_ids:
+        disc = discovery_service.get_discovery_by_id(cid)
+        if not disc:
+            raise HTTPException(status_code=400, detail=f"Checkpoint '{cid}' not found in scientific discoveries database.")
+        checkpoint_coords.append([disc.longitude, disc.latitude])
+
+    if request.checkpoint_coords:
+        for cp in request.checkpoint_coords:
+            checkpoint_coords.append([cp[0], cp[1]])
+
+    destination = request.destination_point
+    if destination is None:
+        if checkpoint_coords:
+            destination = checkpoint_coords.pop()
+        else:
+            destination = [77.4042, 18.4485]  # Wildcat Ridge default
+
+    results: dict = {}
+    for pref in ["SHORTEST", "SAFEST", "BALANCED"]:
+        try:
+            route = terrain_pathfinder.plan_full_route(
+                start_coord=start,
+                destination_coord=destination,
+                checkpoint_coords=list(checkpoint_coords),
+                preference=pref,
+                max_safe_slope=request.max_safe_slope_deg,
+                avoid_sand=request.avoid_sand_hazards,
+                speed_kmh=request.speed_kmh,
+            )
+            results[pref.lower()] = route
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Route comparison error ({pref}): {e}")
+
+    return results

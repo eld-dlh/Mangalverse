@@ -32,6 +32,31 @@ JEZERO_BBOX = {
 }
 
 # Official NASA Mission Attributions
+# ── Rover Mission Reference Data ─────────────────────────────────────────────
+# Static mission reference data as of NASA PDS archive snapshot.
+# Not real-time telemetry. Update from: https://mars.nasa.gov/mars2020/mission/status/
+ROVER_STATUS_CONFIG = {
+    "mission_name": "Mars 2020 Perseverance Rover",
+    "landing_site": "Octavia E. Butler Landing (Jezero Crater)",
+    "coordinates": {
+        "latitude": 18.4447,
+        "longitude": 77.4508,
+        "elevation_m": -2570.0,
+    },
+    "landing_date_utc": "2021-02-18",
+    "mission_sol": 1230,
+    "odometer_km": 28.5,
+    "sealed_sample_tubes_count": 24,
+    "surface_depot_tubes_deposited": 10,
+    "data_as_of": "2024-04-30",
+    "note": (
+        "Static mission reference data as of NASA PDS archive. "
+        "For real-time telemetry see https://mars.nasa.gov/mars2020/"
+    ),
+    "power_source": "Multi-Mission Radioisotope Thermoelectric Generator (MMRTG)",
+    "status": "OPERATIONAL",
+}
+
 NASA_ATTRIBUTIONS = {
     "topography": {
         "mission": "Mars Reconnaissance Orbiter (MRO) / Mars Global Surveyor (MGS)",

@@ -137,6 +137,8 @@ function ExplorerPanel({
   onSwitchToMission,        // new prop: go back to Mission Control
   // Map control
   onFlyToDiscovery,         // new prop: pan map to a discovery
+  // Dossier
+  onOpenDossier,            // open full scientific dossier modal
 }) {
   const total = selectedCheckpointIds.length
 
@@ -228,6 +230,19 @@ function ExplorerPanel({
           isSpeaking={isSpeaking}
           onReplay={() => veraText && speakText(veraText)}
         />
+
+        {/* Transcript fallback for accessibility / no-speech environments */}
+        <div className="mt-2 px-1">
+          <div className="text-[9px] font-mono text-slate-600 uppercase tracking-widest mb-1">Transcript</div>
+          <div className="text-[10px] font-mono text-slate-400 leading-relaxed bg-mars-darkest rounded p-2 border border-mars-border/50 max-h-16 overflow-y-auto">
+            {veraText || '—'}
+          </div>
+          {'speechSynthesis' in window ? null : (
+            <div className="text-[9px] font-mono text-amber-500 mt-1">
+              Reading mode — speech synthesis unavailable in this environment
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── Waypoint navigator (when active) ── */}
@@ -302,6 +317,7 @@ function ExplorerPanel({
                 onExplore={() => handleExplore(selectedDiscovery)}
                 onViewMission={onSwitchToMission}
                 onClose={() => setSubView('list')}
+                onOpenDossier={onOpenDossier}
               />
             ) : (
               <div className="flex flex-col items-center justify-center gap-3 py-12 text-center px-4">

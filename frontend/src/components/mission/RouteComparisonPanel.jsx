@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import { IconAlert, IconCheck, IconX } from '../Icons'
+import ElevationSvgChart from '../ElevationChart'
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 const IconDistance = () => (
@@ -83,10 +84,22 @@ function MetricRow({ icon, label, value, valueClass = 'text-slate-200' }) {
 function RouteCard({ variant, data, isActive, isSelected, onClick, onSelect }) {
   const v = variant
 
+  // Normalize backend field names → panel field names
+  // Backend returns: total_distance_km, estimated_drive_duration_hours,
+  //                  safety_warnings, total_elevation_gain_m
+  const d = data ? {
+    distance_km:      data.total_distance_km                 ?? data.distance_km      ?? null,
+    duration_hours:   data.estimated_drive_duration_hours    ?? data.duration_hours    ?? null,
+    warnings:         data.safety_warnings                   ?? data.warnings          ?? [],
+    elevation_gain_m: data.total_elevation_gain_m            ?? data.elevation_gain_m  ?? null,
+    max_slope_deg:    data.max_slope_deg                     ?? null,
+    avg_slope_deg:    data.avg_slope_deg                     ?? null,
+  } : null
+
   // Safety score: 0-100 based on max slope (lower = safer)
-  const safetyScore = data ? Math.max(0, Math.round(100 - (data.max_slope_deg ?? 0) * 4.5)) : null
-  const efficiencyScore = data
-    ? Math.max(0, Math.round(100 - ((data.distance_km ?? 10) - 4) * 8))
+  const safetyScore = d ? Math.max(0, Math.round(100 - (d.max_slope_deg ?? 0) * 4.5)) : null
+  const efficiencyScore = d
+    ? Math.max(0, Math.round(100 - ((d.distance_km ?? 10) - 4) * 8))
     : null
 
   return (
@@ -124,24 +137,24 @@ function RouteCard({ variant, data, isActive, isSelected, onClick, onSelect }) {
       </div>
 
       {/* Metrics (only shown when data present) */}
-      {data ? (
+      {d ? (
         <div className="space-y-1.5">
           <MetricRow icon={<IconDistance />} label="Distance"
-            value={`${data.distance_km?.toFixed(1)} km`}
+            value={`${d.distance_km?.toFixed(1)} km`}
             valueClass={isActive ? v.accentText : 'text-slate-200'}
           />
           <MetricRow icon={<IconClock />} label="Est. Duration"
-            value={`${data.duration_hours?.toFixed(1)} hrs`}
+            value={`${d.duration_hours?.toFixed(1)} hrs`}
           />
           <MetricRow icon={<IconSlope />} label="Max / Avg Slope"
-            value={`${data.max_slope_deg?.toFixed(1)}° / ${data.avg_slope_deg?.toFixed(1)}°`}
+            value={`${d.max_slope_deg?.toFixed(1)}° / ${d.avg_slope_deg?.toFixed(1)}°`}
             valueClass={
-              (data.max_slope_deg ?? 0) > 15 ? 'text-red-400' :
-              (data.max_slope_deg ?? 0) > 10 ? 'text-amber-400' : 'text-emerald-400'
+              (d.max_slope_deg ?? 0) > 15 ? 'text-red-400' :
+              (d.max_slope_deg ?? 0) > 10 ? 'text-amber-400' : 'text-emerald-400'
             }
           />
           <MetricRow icon={<IconElevation />} label="Elevation Gain"
-            value={`+${data.elevation_gain_m} m`}
+            value={`+${d.elevation_gain_m} m`}
           />
 
           {/* Score bars */}
@@ -164,9 +177,9 @@ function RouteCard({ variant, data, isActive, isSelected, onClick, onSelect }) {
           </div>
 
           {/* Warnings */}
-          {data.warnings?.length > 0 && (
+          {d.warnings?.length > 0 && (
             <div className="pt-1.5 border-t border-mars-border/50 space-y-1">
-              {data.warnings.map((w, i) => (
+              {d.warnings.map((w, i) => (
                 <div key={i} className="flex items-start gap-1 text-[9px] font-mono text-amber-400">
                   <IconAlert className="w-3 h-3 shrink-0 mt-0.5 text-amber-400" />
                   <span>{w}</span>
@@ -175,7 +188,7 @@ function RouteCard({ variant, data, isActive, isSelected, onClick, onSelect }) {
             </div>
           )}
 
-          {data.warnings?.length === 0 && (
+          {d.warnings?.length === 0 && (
             <div className="flex items-center gap-1 text-[9px] font-mono text-emerald-400 pt-1 border-t border-mars-border/50">
               <IconCheck className="w-3 h-3" />
               No terrain warnings
@@ -192,7 +205,7 @@ function RouteCard({ variant, data, isActive, isSelected, onClick, onSelect }) {
 }
 
 // ── Main exported component ───────────────────────────────────────────────────
-function RouteComparisonPanel({ routeComparison, isCalculating, selectedVariant, onSelectVariant, onClose, startPoint, destPoint }) {
+function RouteComparisonPanel({ routeComparison, isCalculating, selectedVariant, onSelectVariant, onClose, startPoint, destPoint, error, onRouteHoverPoint }) {
   const [expanded, setExpanded] = useState('balanced')
 
   const hasPoints = startPoint && destPoint
@@ -250,6 +263,14 @@ function RouteComparisonPanel({ routeComparison, isCalculating, selectedVariant,
         </div>
       )}
 
+      {/* Error state */}
+      {!isCalculating && error && (
+        <div className="mx-3 mt-3 p-3 rounded-lg border border-red-700/50 bg-red-900/15">
+          <div className="text-[10px] font-mono text-red-400 font-semibold mb-1">⚠ Route Comparison Failed</div>
+          <div className="text-[9px] font-mono text-red-300 leading-relaxed break-words">{error}</div>
+        </div>
+      )}
+
       {/* Route cards */}
       {!isCalculating && (
         <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2.5">
@@ -278,6 +299,26 @@ function RouteComparisonPanel({ routeComparison, isCalculating, selectedVariant,
 
       {/* Footer note */}
       <div className="px-4 pb-3 pt-2 border-t border-mars-border shrink-0">
+        {/* Elevation profile for selected variant */}
+        {routeComparison && routeComparison[selectedVariant]?.elevation_profile?.length >= 2 && (
+          <div className="mb-3 bg-mars-panel border border-mars-border rounded p-2">
+            <div className="text-[9px] font-mono uppercase tracking-widest text-slate-500 mb-1">
+              Elevation Profile
+            </div>
+            <div className="h-20 overflow-hidden">
+              <ElevationSvgChart
+                profile={routeComparison[selectedVariant].elevation_profile}
+                onHover={(p) => {
+                  if (p && (p.latitude != null || p.longitude != null)) {
+                    onRouteHoverPoint?.({ latitude: p.latitude, longitude: p.longitude })
+                  } else {
+                    onRouteHoverPoint?.(null)
+                  }
+                }}
+              />
+            </div>
+          </div>
+        )}
         <div className="text-[9px] font-mono text-slate-600 leading-relaxed">
           Pathfinding: A* on USGS CTX DEM (20m) + HiRISE DTM (1m). Speed: 0.12 km/h autonomous.
         </div>
