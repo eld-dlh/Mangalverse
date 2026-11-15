@@ -22,7 +22,9 @@ export default {
         }
       },
       fontFamily: {
-        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+        mono:    ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+        sans:    ['Inter', 'system-ui', 'sans-serif'],
+        mission: ['Chakra Petch', 'sans-serif'],
       }
     },
   },
