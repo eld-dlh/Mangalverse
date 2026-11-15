@@ -130,3 +130,17 @@ body {
   pointer-events: none;
   transition: opacity 0.15s ease-in-out;
 }
+
+/* Custom Landing Marker & Waypoint Badges */
+.custom-landing-marker {
+  overflow: visible !important;
+}
+
+.custom-landing-marker > div {
+  white-space: nowrap !important;
+  box-shadow: 0 0 12px rgba(255, 107, 53, 0.9), 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.route-wp-marker {
+  overflow: visible !important;
+}

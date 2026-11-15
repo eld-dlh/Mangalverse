@@ -165,6 +165,26 @@ class JezeroDEMService:
         r, c = self.coord_to_pixel(lon, lat)
         return float(self.slope_grid_deg[r, c])
 
+    def get_analyzer(self):
+        """Lazy access to full TerrainAnalyzer engine."""
+        if not hasattr(self, "_analyzer") or self._analyzer is None:
+            from app.services.terrain_analysis import TerrainAnalyzer, HazardZone
+            self._analyzer = TerrainAnalyzer(self.dem_path)
+            self._analyzer.add_hazard_zone(HazardZone(
+                name="South Séítah Aeolian Dunes",
+                hazard_type="Sand Ripple Slip",
+                min_lon=77.436,
+                max_lon=77.447,
+                min_lat=18.427,
+                max_lat=18.438,
+                penalty_multiplier=3.5
+            ))
+        return self._analyzer
+
+    def get_traversal_cost_at(self, lon: float, lat: float) -> float:
+        """Query computed traversal cost at specific coordinate."""
+        return self.get_analyzer().get_traversal_cost_at(lon, lat)
+
     def get_terrain_assessment(self, slope_deg: float) -> dict:
         """
         Project-defined slope classification model derived from CTX DEM gradient analysis.

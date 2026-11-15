@@ -13,7 +13,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from app.routers import objectives, discoveries, routing, elevation, environment, rover
+from app.routers import (
+    objectives,
+    discoveries,
+    checkpoints,
+    terrain,
+    routing,
+    elevation,
+    environment,
+    rover
+)
 from app.config import NASA_ATTRIBUTIONS
 
 app = FastAPI(
@@ -34,6 +43,8 @@ app.add_middleware(
 # Mount API Routers
 app.include_router(objectives.router)
 app.include_router(discoveries.router)
+app.include_router(checkpoints.router)
+app.include_router(terrain.router)
 app.include_router(routing.router)
 app.include_router(elevation.router)
 app.include_router(environment.router)
@@ -60,6 +71,15 @@ def api_root():
         "focus_region": "Jezero Crater, Mars (18.38°N - 18.52°N, 77.30°E - 77.50°E)",
         "mission_focus": "Mars 2020 Perseverance Rover",
         "docs_url": "/docs",
+        "endpoints": {
+            "discoveries": "/api/discoveries",
+            "discovery_by_id": "/api/discoveries/{id}",
+            "objectives": "/api/objectives",
+            "terrain": "/api/terrain",
+            "environment": "/api/environment",
+            "routes": "/api/routes",
+            "checkpoints": "/api/checkpoints"
+        },
         "verified_attributions": NASA_ATTRIBUTIONS
     }
 
