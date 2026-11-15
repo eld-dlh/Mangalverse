@@ -374,7 +374,11 @@ function MarsExplorerApp() {
     }
 
     // Render Landing Marker (Octavia E. Butler Landing)
-    const landingSite = traverseGeoJSON.features.find(f => f.geometry.type === "Point" && f.properties.name.includes("Sol 0"));
+    const landingSite = traverseGeoJSON.features.find(f => {
+      if (!f || !f.geometry || f.geometry.type !== "Point") return false;
+      const name = String(f.properties?.name || f.properties?.waypoint_name || "");
+      return name.includes("Sol 0") || f.properties?.sol === 0;
+    });
     if (landingSite) {
       const [lon, lat] = landingSite.geometry.coordinates;
       const landingIcon = L.divIcon({
@@ -411,13 +415,14 @@ function MarsExplorerApp() {
     group.clearLayers();
 
     discoveries.forEach(disc => {
-      const isSelected = selectedCheckpointIds.includes(disc.id);
+      const isSelected = (selectedCheckpointIds || []).includes(disc.id);
       const isCurrentObjective = disc.primary_objective_id === selectedObjectiveId;
       
       // Pin styling based on sample status and selection
       let pinColor = '#94a3b8'; // default
       if (disc.sample_acquired) pinColor = '#00ffc8'; // sample acquired
-      if (disc.biosignature_potential.includes("CRITICAL") || disc.biosignature_potential.includes("POTENTIAL")) pinColor = '#f59e0b';
+      const bio = String(disc.biosignature_potential || "");
+      if (bio.includes("CRITICAL") || bio.includes("POTENTIAL")) pinColor = '#f59e0b';
       if (isSelected) pinColor = '#ff6b35';
 
       const customIcon = L.divIcon({
@@ -597,7 +602,7 @@ function MarsExplorerApp() {
 
   // Trigger route calculation when checkpoints change
   useEffect(() => {
-    if (selectedCheckpointIds.length > 0) {
+    if ((selectedCheckpointIds || []).length > 0) {
       handleCalculateRoute();
     }
   }, [selectedCheckpointIds]);
@@ -605,10 +610,11 @@ function MarsExplorerApp() {
   // Toggle Checkpoint Selection
   const toggleCheckpoint = (id) => {
     setSelectedCheckpointIds(prev => {
-      if (prev.includes(id)) {
-        return prev.filter(item => item !== id);
+      const arr = prev || [];
+      if (arr.includes(id)) {
+        return arr.filter(item => item !== id);
       } else {
-        return [...prev, id];
+        return [...arr, id];
       }
     });
   };
@@ -633,22 +639,32 @@ function MarsExplorerApp() {
   }, [selectedCheckpointIds, currentWaypointIndex, discoveries]);
 
   const speakText = useCallback((text) => {
-    if (!isVoiceEnabled || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel(); // cancel previous
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 0.95;
-    
-    // Choose pleasant synthetic voice if available
-    const voices = window.speechSynthesis.getVoices();
-    const englishVoice = voices.find(v => v.lang.startsWith("en") && (v.name.includes("Google") || v.name.includes("Natural") || v.name.includes("Samantha")));
-    if (englishVoice) utterance.voice = englishVoice;
+    if (!isVoiceEnabled || !('speechSynthesis' in window) || !text) return;
+    try {
+      window.speechSynthesis.cancel(); // cancel previous
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+      utterance.pitch = 0.95;
+      
+      // Choose pleasant synthetic voice if available
+      const voices = window.speechSynthesis.getVoices() || [];
+      const englishVoice = voices.find(v => {
+        if (!v || !v.name || !v.lang) return false;
+        const name = String(v.name);
+        const lang = String(v.lang);
+        return lang.startsWith("en") && (name.includes("Google") || name.includes("Natural") || name.includes("Samantha"));
+      });
+      if (englishVoice) utterance.voice = englishVoice;
 
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
 
-    window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.warn("Speech synthesis error:", err);
+      setIsSpeaking(false);
+    }
   }, [isVoiceEnabled]);
 
   // Speak companion insight when moving to new waypoint in Explorer Mode
@@ -856,13 +872,13 @@ function MarsExplorerApp() {
                       Target Checkpoints
                     </span>
                     <span className="text-[10px] font-mono text-mars-cyan">
-                      {selectedCheckpointIds.length} Selected
+                      {(selectedCheckpointIds || []).length} Selected
                     </span>
                   </div>
 
                   <div className="space-y-1.5 max-h-52 overflow-y-auto pr-1">
                     {filteredDiscoveries.map(disc => {
-                      const isChecked = selectedCheckpointIds.includes(disc.id);
+                      const isChecked = (selectedCheckpointIds || []).includes(disc.id);
                       return (
                         <div
                           key={disc.id}
@@ -941,7 +957,7 @@ function MarsExplorerApp() {
                 {/* Step 4: Calculate Route Button */}
                 <button
                   onClick={handleCalculateRoute}
-                  disabled={isCalculatingRoute || selectedCheckpointIds.length === 0}
+                  disabled={isCalculatingRoute || (selectedCheckpointIds || []).length === 0}
                   className="w-full py-2.5 px-4 rounded bg-gradient-to-r from-mars-rust to-mars-orange hover:from-mars-red hover:to-mars-rust text-white font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-mars-rust/20 border border-mars-orange/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 transition"
                 >
                   {isCalculatingRoute ? (
@@ -1195,7 +1211,7 @@ function MarsExplorerApp() {
               </div>
 
               {/* Waypoint Step Navigation */}
-              {selectedCheckpointIds.length > 0 && (
+              {(selectedCheckpointIds || []).length > 0 && (
                 <div className="flex items-center justify-between bg-mars-darkest/70 p-2 rounded border border-mars-border text-xs font-mono">
                   <button
                     disabled={currentWaypointIndex <= 0}
@@ -1206,12 +1222,12 @@ function MarsExplorerApp() {
                   </button>
 
                   <span className="text-mars-orange font-bold">
-                    LOCATION {currentWaypointIndex + 1} OF {selectedCheckpointIds.length}
+                    LOCATION {currentWaypointIndex + 1} OF {(selectedCheckpointIds || []).length}
                   </span>
 
                   <button
-                    disabled={currentWaypointIndex >= selectedCheckpointIds.length - 1}
-                    onClick={() => setCurrentWaypointIndex(prev => Math.min(selectedCheckpointIds.length - 1, prev + 1))}
+                    disabled={currentWaypointIndex >= (selectedCheckpointIds || []).length - 1}
+                    onClick={() => setCurrentWaypointIndex(prev => Math.min((selectedCheckpointIds || []).length - 1, prev + 1))}
                     className="px-2 py-1 rounded bg-mars-panel hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300"
                   >
                     NEXT ▶
