@@ -1,5 +1,5 @@
 """
-Terrain Analysis Module for MARS EXPLORER (NASA Space Apps Challenge).
+Terrain Analysis Module for MANGALVERSE (NASA Space Apps Challenge).
 High-performance geospatial raster processing using Python, NumPy, and Rasterio.
 
 Processes authentic Martian elevation rasters (USGS CTX / HiRISE DTMs):
@@ -21,8 +21,8 @@ from rasterio.transform import rowcol, xy, Affine
 from rasterio.crs import CRS
 import pyproj
 
-# Physical Constants for Mars
-MARS_RADIUS_METERS: float = 3389500.0  # Volumetric mean radius of Mars
+# Physical Constants for Mars (IAU 2000 Mars reference sphere, matching USGS CTX DEM geodetic CRS)
+MARS_RADIUS_METERS: float = 3396190.0  # IAU 2000 Mars spherical radius (m)
 
 
 @dataclass

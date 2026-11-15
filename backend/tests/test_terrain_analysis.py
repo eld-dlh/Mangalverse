@@ -1,5 +1,5 @@
 """
-Unit tests for the Terrain Analysis module (MARS EXPLORER).
+Unit tests for the Terrain Analysis module (MANGALVERSE).
 Uses a mathematically known synthetic test raster and tests against authentic Jezero DEM.
 Verifies:
 1. GeoTIFF loading and preservation of spatial reference (CRS, Affine, bounds).

@@ -80,7 +80,13 @@ class WeatherService:
             eva_suit_warnings=json.loads(row["eva_suit_warnings"]),
             rover_mobility_status=row["rover_mobility_status"],
             pressure_provenance=p_prov,
-            pressure_interpretation_status=p_interp
+            pressure_interpretation_status=p_interp,
+            air_temp_provenance="PDS4 CAL_ATS 5-Sensor In-Situ Observation (NASA/JPL/CAB)",
+            ground_temp_provenance="Model Estimate (Derived from regional surface thermal inertia)",
+            wind_provenance="Model Estimate (Regional Martian Atmospheric Circulation Model)",
+            dust_provenance="Model Estimate (Seasonal Optical Depth Climatology)",
+            uv_provenance="Model Estimate (Top-of-Atmosphere Radiative Transfer)",
+            data_authenticity_notice="Atmospheric pressure and air temperature are direct NASA PDS calibrated observations. Ground temperature, wind, dust tau, and UV are model estimates."
         )
 
 weather_service = WeatherService()

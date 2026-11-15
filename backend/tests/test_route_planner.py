@@ -1,5 +1,5 @@
 """
-Unit and integration tests for the Martian Terrain-Aware Route-Planning Engine (MARS EXPLORER).
+Unit and integration tests for the Martian Terrain-Aware Route-Planning Engine (MANGALVERSE).
 Verifies:
 1. Synthetic elevation grid A* routing:
    - SAFEST routes around high-cost obstacles/steep terrain.

@@ -1,5 +1,5 @@
 """
-Backend Configuration and NASA Dataset Attributions for Mars Explorer.
+Backend Configuration and NASA Dataset Attributions for Mangalverse.
 """
 import os
 from pathlib import Path

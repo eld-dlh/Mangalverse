@@ -1,5 +1,5 @@
 """
-Unit and Integration Tests for Scientific Objectives Integration (MARS EXPLORER).
+Unit and Integration Tests for Scientific Objectives Integration (MANGALVERSE).
 Verifies:
 1. Retrieval of authentic scientific discoveries from the shared SQLite database.
 2. Grouping of discoveries into scientific categories:

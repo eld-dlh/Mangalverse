@@ -1,5 +1,5 @@
 """
-Comprehensive unit and integration test suite for Mars Explorer Backend.
+Comprehensive unit and integration test suite for Mangalverse Backend.
 Directly tests geospatial processing, pathfinding, and all required API router handlers:
 - GET /api/discoveries
 - GET /api/discoveries/{id}
@@ -43,7 +43,13 @@ def test_dem_raster_properties():
 
     landing_elev = jezero_dem_service.get_elevation_at(77.4508, 18.4447)
     assert abs(landing_elev - (-2570.0)) < 15.0
-    print(f"DEM raster properties verified (Landing site elevation: {landing_elev:.2f} m).")
+
+    # Bounds and NoData verification
+    assert jezero_dem_service.is_in_bounds(77.4508, 18.4447) is True
+    assert jezero_dem_service.is_in_bounds(27.70417, -6.61665) is False
+    assert jezero_dem_service.get_elevation_at(27.70417, -6.61665) is None
+    assert jezero_dem_service.get_slope_at(27.70417, -6.61665) is None
+    print(f"DEM raster properties verified (Landing site elevation: {landing_elev:.2f} m, out-of-bounds bounds checking active).")
 
 def test_mars_haversine():
     """Verify spherical distance calculation on Mars."""

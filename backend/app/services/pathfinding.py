@@ -1,5 +1,5 @@
 """
-Terrain-Aware Martian Route-Planning Engine (MARS EXPLORER).
+Terrain-Aware Martian Route-Planning Engine (MANGALVERSE).
 NASA Space Apps Challenge.
 
 Uses A* pathfinding over authentic Martian digital elevation models,
@@ -17,6 +17,7 @@ safety warnings, elevation profiling, and safety disclaimers.
 from enum import Enum
 import heapq
 import math
+import time
 from typing import List, Tuple, Dict, Any, Optional, Union
 import numpy as np
 
@@ -102,20 +103,20 @@ class TerrainPathfinder:
             }
         elif preference == RoutePreference.SAFEST:
             return {
-                "dist_weight": 0.4,
-                "slope_weight": 4.5,
+                "dist_weight": 1.0,
+                "slope_weight": 11.25,
                 "slope_exponent": 3.0,
-                "hazard_weight": 8.0,
-                "climb_weight": 0.8,
+                "hazard_weight": 20.0,
+                "climb_weight": 2.0,
                 "max_allowed_slope": 14.0
             }
         else:  # BALANCED
             return {
                 "dist_weight": 1.0,
-                "slope_weight": 2.0,
+                "slope_weight": 2.5,
                 "slope_exponent": 2.0,
-                "hazard_weight": 3.0,
-                "climb_weight": 0.3,
+                "hazard_weight": 4.0,
+                "climb_weight": 0.4,
                 "max_allowed_slope": 16.0
             }
 
@@ -127,7 +128,8 @@ class TerrainPathfinder:
         max_safe_slope: float = 15.0,
         avoid_sand: bool = True,
         custom_cost_grid: Optional[np.ndarray] = None,
-        custom_hazard_mask: Optional[np.ndarray] = None
+        custom_hazard_mask: Optional[np.ndarray] = None,
+        max_iterations: int = 75000
     ) -> Optional[List[Tuple[int, int]]]:
         """
         Compute optimal single-leg path between two grid cells using A* search.
@@ -135,6 +137,7 @@ class TerrainPathfinder:
         """
         sr, sc = start_rc
         gr, gc = goal_rc
+        self.last_segment_iterations = 0
 
         if (sr, sc) == (gr, gc):
             return [(sr, sc)]
@@ -182,7 +185,6 @@ class TerrainPathfinder:
         open_set = []
         heapq.heappush(open_set, (heuristic(sr, sc), sr, sc))
 
-        max_iterations = 75000
         iterations = 0
 
         while open_set and iterations < max_iterations:
@@ -195,6 +197,7 @@ class TerrainPathfinder:
             closed[lr, lc] = True
 
             if (cr, cc) == (gr, gc):
+                self.last_segment_iterations = iterations
                 path = [(cr, cc)]
                 curr = (cr, cc)
                 while curr in came_from:
@@ -250,17 +253,22 @@ class TerrainPathfinder:
                     f_score = tentative_g + heuristic(nr, nc)
                     heapq.heappush(open_set, (f_score, nr, nc))
 
+        self.last_segment_iterations = iterations
+
         # Fallback with relaxed slope constraint if strict search was blocked
         if effective_max_slope < 24.0:
-            return self.astar_segment(
+            fallback_res = self.astar_segment(
                 start_rc,
                 goal_rc,
                 preference=preference,
                 max_safe_slope=24.0,
                 avoid_sand=False,
                 custom_cost_grid=custom_cost_grid,
-                custom_hazard_mask=custom_hazard_mask
+                custom_hazard_mask=custom_hazard_mask,
+                max_iterations=25000
             )
+            self.last_segment_iterations = iterations + getattr(self, "last_segment_iterations", 0)
+            return fallback_res
 
         return None
 
@@ -289,6 +297,7 @@ class TerrainPathfinder:
         - speed_kmh: Nominal drive speed (default 0.12 km/h autonomous drive)
         """
         # Parse preference enum safely
+        computation_start = time.perf_counter()
         if isinstance(preference, str):
             pref_clean = preference.strip().upper()
             try:
@@ -322,6 +331,7 @@ class TerrainPathfinder:
 
         # Sequentially solve each route leg
         total_accumulated_cost = 0.0
+        total_iterations = 0
 
         for i in range(len(grid_waypoints) - 1):
             rc_from = grid_waypoints[i]
@@ -338,6 +348,7 @@ class TerrainPathfinder:
                 custom_cost_grid=custom_cost_grid,
                 custom_hazard_mask=custom_hazard_mask
             )
+            total_iterations += getattr(self, "last_segment_iterations", 0)
 
             if segment is None:
                 # Path unreachable under slope constraints: use direct geodesic interpolation fallback
@@ -496,6 +507,7 @@ class TerrainPathfinder:
         }
 
         # Determine overall execution status
+        elapsed_ms = round((time.perf_counter() - computation_start) * 1000.0, 2)
         any_unreachable = any(leg["status"] == RouteLegStatus.UNREACHABLE.value for leg in leg_statuses)
         overall_status = "PARTIAL_SUCCESS" if any_unreachable else "SUCCESS"
 
@@ -511,6 +523,9 @@ class TerrainPathfinder:
             "estimated_energy_consumption_kwh": total_energy_kwh,
             "terrain_difficulty_score": difficulty_score,
             "terrain_difficulty_rating": difficulty_rating,
+            "computation_time_ms": elapsed_ms,
+            "computation_time_seconds": round(elapsed_ms / 1000.0, 3),
+            "total_iterations": total_iterations,
             "path_geojson": geojson_feature,
             "elevation_profile": profile,
             "waypoints": waypoints_meta,
@@ -520,10 +535,12 @@ class TerrainPathfinder:
             "algorithm_meta": {
                 "algorithm": "Terrain-Aware A*",
                 "preference": pref_enum.value,
-                "heuristic": "Spherical Euclidean Distance on Mars (R=3389.5 km)",
+                "heuristic": "Projected Planar Euclidean Distance on IAU 2000 Mars Reference Sphere (R=3396.19 km)",
                 "elevation_datum": "USGS/NASA MOLA Areoid Datum",
                 "max_safe_slope_threshold": max_safe_slope,
                 "avoid_sand_hazards": avoid_sand,
+                "total_iterations": total_iterations,
+                "computation_time_seconds": round(elapsed_ms / 1000.0, 3),
                 "samples_count": len(profile)
             }
         }

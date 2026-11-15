@@ -19,11 +19,11 @@ function TopBar({ activeMode, setActiveMode, currentMedaReport, isVoiceEnabled, 
           title="Back to mode selection"
           className="w-8 h-8 rounded bg-gradient-to-br from-mars-rust to-mars-red flex items-center justify-center shadow-lg shadow-mars-red/20 border border-mars-orange/40 hover:scale-105 transition-transform shrink-0"
         >
-          <span className="text-white font-mission font-bold text-xs">ME</span>
+          <span className="text-white font-mission font-bold text-xs">MV</span>
         </button>
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mission font-bold text-sm tracking-wider text-slate-100 whitespace-nowrap">MARS EXPLORER</span>
+            <span className="font-mission font-bold text-sm tracking-wider text-slate-100 whitespace-nowrap">MANGALVERSE</span>
             <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-mars-rust/30 text-mars-orange border border-mars-rust/50 font-semibold whitespace-nowrap">
               JEZERO CRATER
             </span>
@@ -74,7 +74,7 @@ function TopBar({ activeMode, setActiveMode, currentMedaReport, isVoiceEnabled, 
         {activeMode === 'EXPLORER_MODE' && (
           <button
             onClick={handleVoiceToggle}
-            title={isVoiceEnabled ? 'Mute ARES' : 'Enable ARES voice'}
+            title={isVoiceEnabled ? 'Mute ASTRA' : 'Enable ASTRA voice'}
             className={`p-2 rounded border text-xs font-mono flex items-center gap-1 transition ${
               isVoiceEnabled
                 ? 'bg-mars-cyan/20 border-mars-cyan/50 text-mars-cyan'
@@ -82,7 +82,7 @@ function TopBar({ activeMode, setActiveMode, currentMedaReport, isVoiceEnabled, 
             }`}
           >
             {isVoiceEnabled ? <IconVolume /> : <IconVolumeMute />}
-            <span className="hidden sm:inline">{isSpeaking ? 'SPEAKING…' : 'ARES AUDIO'}</span>
+            <span className="hidden sm:inline">{isSpeaking ? 'SPEAKING…' : 'ASTRA AUDIO'}</span>
           </button>
         )}
         <button

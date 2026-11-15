@@ -9,7 +9,7 @@ const FEATURES_MC = [
 ]
 
 const FEATURES_EX = [
-  { icon: <IconBot className="w-4 h-4" />, text: 'ARES Virtual Companion (voice)' },
+  { icon: <IconBot className="w-4 h-4" />, text: 'ASTRA Virtual Companion (voice)' },
   { icon: <IconStar className="w-4 h-4" />, text: 'Step-by-step waypoint narration' },
   { icon: <IconFlask className="w-4 h-4" />, text: 'Deep scientific dossiers' },
 ]
@@ -81,9 +81,9 @@ function LandingPage({ onSelectMode }) {
       <header className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-mars-border/40">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded bg-gradient-to-br from-mars-rust to-mars-red flex items-center justify-center shadow-lg shadow-mars-red/20 border border-mars-orange/40">
-            <span className="text-white font-mission font-bold text-xs">ME</span>
+            <span className="text-white font-mission font-bold text-xs">MV</span>
           </div>
-          <span className="font-mission font-bold text-sm tracking-wider text-slate-200">MARS EXPLORER</span>
+          <span className="font-mission font-bold text-sm tracking-wider text-slate-200">MANGALVERSE</span>
         </div>
         <div className="flex items-center gap-2 text-[11px] font-mono text-slate-500">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -112,7 +112,7 @@ function LandingPage({ onSelectMode }) {
           </div>
 
           <h1 className="font-mission font-bold text-5xl sm:text-6xl text-slate-100 tracking-wide mb-4">
-            MARS <span className="text-mars-orange">EXPLORER</span>
+            MANGAL<span className="text-mars-orange">VERSE</span>
           </h1>
 
           <p className="max-w-xl mx-auto text-slate-400 text-base leading-relaxed mb-2">
@@ -137,7 +137,7 @@ function LandingPage({ onSelectMode }) {
             <ModeCard
               title="Explorer Mode"
               subtitle="Guided Exploration Experience"
-              description="Accessible narrative interface guided by ARES, your virtual companion. Voice narration, step-by-step waypoint exploration, and deep scientific dossiers."
+              description="Accessible narrative interface guided by ASTRA, your virtual companion. Voice narration, step-by-step waypoint exploration, and deep scientific dossiers."
               Icon={IconBot}
               features={FEATURES_EX}
               accent="cyan"

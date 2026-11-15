@@ -42,7 +42,7 @@ function AttributionModal({ onClose }) {
             NASA DATASET PROVENANCE & ATTRIBUTION
           </h2>
           <p className="text-[11px] text-slate-400 mt-1">
-            Mars Explorer complies with strict planetary data standards. All measurements, coordinates, and scientific analyses originate from authentic NASA mission releases.
+            Mangalverse complies with strict planetary data standards. All measurements, coordinates, and scientific analyses originate from authentic NASA mission releases.
           </p>
         </div>
 

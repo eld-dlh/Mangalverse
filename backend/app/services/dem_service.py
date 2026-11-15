@@ -9,8 +9,8 @@ import pyproj
 from typing import Tuple, List, Dict, Any, Optional
 from app.config import DEM_PATH, JEZERO_BBOX, AUTHENTIC_HIRISE_DTM_PATH
 
-# Physical constants for Mars
-MARS_RADIUS_METERS = 3389500.0  # Volumetric mean radius of Mars
+# Physical constants for Mars (IAU 2000 Mars reference sphere, matching USGS CTX DEM geodetic CRS)
+MARS_RADIUS_METERS = 3396190.0  # IAU 2000 Mars spherical radius (m)
 
 def mars_haversine_distance(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
     """
@@ -145,25 +145,60 @@ class JezeroDEMService:
             pass
         return None
 
-    def get_elevation_at(self, lon: float, lat: float, prefer_hirise: bool = False) -> float:
+    def is_in_bounds(self, lon: float, lat: float) -> bool:
+        """
+        Check if Martian coordinate (lon, lat) falls within the authentic USGS Jezero Crater DEM extent
+        and contains valid elevation data (non-NoData, realistic Martian elevation).
+        """
+        try:
+            if self.is_projected and self.to_proj is not None:
+                x, y = self.to_proj.transform(lon, lat)
+            else:
+                x, y = lon, lat
+
+            if x < self.bounds.left or x > self.bounds.right or y < self.bounds.bottom or y > self.bounds.top:
+                return False
+
+            r, c = rowcol(self.transform, x, y)
+            if not (0 <= r < self.height and 0 <= c < self.width):
+                return False
+
+            val = float(self.elevation_grid[r, c])
+            if self.nodata is not None and abs(val - self.nodata) < 1.0:
+                return False
+            if val < -10000.0 or val > 30000.0 or not np.isfinite(val):
+                return False
+
+            return True
+        except Exception:
+            return False
+
+    def get_elevation_at(self, lon: float, lat: float, prefer_hirise: bool = False) -> Optional[float]:
         """
         Get elevation in meters at specific coordinate.
         If prefer_hirise=True and coordinate is within HiRISE delta coverage, returns 1m HiRISE elevation.
         Otherwise falls back to regional 20m CTX DEM.
+        Returns None if coordinate is outside valid DEM coverage.
         """
         if prefer_hirise:
             hi_val = self.get_hirise_elevation_at(lon, lat)
             if hi_val is not None:
                 return hi_val
+        if not self.is_in_bounds(lon, lat):
+            return None
         r, c = self.coord_to_pixel(lon, lat)
-        return float(self.elevation_grid[r, c])
+        val = float(self.elevation_grid[r, c])
+        return round(val, 2)
 
-    def get_slope_at(self, lon: float, lat: float) -> float:
+    def get_slope_at(self, lon: float, lat: float) -> Optional[float]:
         """
         Get slope in degrees at specific coordinate.
+        Returns None if coordinate is outside valid DEM coverage.
         """
+        if not self.is_in_bounds(lon, lat):
+            return None
         r, c = self.coord_to_pixel(lon, lat)
-        return float(self.slope_grid_deg[r, c])
+        return round(float(self.slope_grid_deg[r, c]), 2)
 
     def get_analyzer(self):
         """Lazy access to full TerrainAnalyzer engine."""
@@ -185,7 +220,7 @@ class JezeroDEMService:
         """Query computed traversal cost at specific coordinate."""
         return self.get_analyzer().get_traversal_cost_at(lon, lat)
 
-    def get_terrain_assessment(self, slope_deg: float) -> dict:
+    def get_terrain_assessment(self, slope_deg: Optional[float]) -> dict:
         """
         Project-defined slope classification model derived from CTX DEM gradient analysis.
         These classifications are NOT NASA-certified mission safety ratings.
@@ -196,6 +231,12 @@ class JezeroDEMService:
           <= 15 deg -> SLOPE_MODERATE (approach with caution)
           >  15 deg -> SLOPE_HIGH   (outside nominal traversal envelope)
         """
+        if slope_deg is None:
+            return {
+                "classification": "OUT_OF_BOUNDS",
+                "slope_degrees": None,
+                "model_note": "Coordinates fall outside the authentic USGS Jezero Crater DEM boundary."
+            }
         if slope_deg <= 10.0:
             label = "SLOPE_LOW"
         elif slope_deg <= 15.0:
@@ -236,8 +277,8 @@ class JezeroDEMService:
                 "distance_meters": 0.0,
                 "longitude": coords[0][0],
                 "latitude": coords[0][1],
-                "elevation_m": round(elev, 2),
-                "slope_deg": round(slope, 2),
+                "elevation_m": round(float(elev), 2) if elev is not None else -2500.0,
+                "slope_deg": round(float(slope), 2) if slope is not None else 0.0,
                 "hazard_level": assessment["classification"],
                 "terrain_classification": assessment["classification"],
                 "terrain_model_note": assessment["model_note"]
@@ -273,8 +314,8 @@ class JezeroDEMService:
                 "distance_meters": round(float(target_d), 1),
                 "longitude": round(float(lon), 5),
                 "latitude": round(float(lat), 5),
-                "elevation_m": round(float(elev), 2),
-                "slope_deg": round(float(slope), 2),
+                "elevation_m": round(float(elev), 2) if elev is not None else -2500.0,
+                "slope_deg": round(float(slope), 2) if slope is not None else 0.0,
                 "hazard_level": assessment["classification"],
                 "terrain_classification": assessment["classification"],
                 "terrain_model_note": assessment["model_note"]

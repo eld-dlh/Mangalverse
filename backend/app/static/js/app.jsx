@@ -1,4 +1,4 @@
-// MARS EXPLORER - Frontend Application (NASA Space Apps Challenge)
+// MANGALVERSE - Frontend Application (NASA Space Apps Challenge)
 // Objective-Driven Jezero Crater Exploration and Survival Platform
 
 const { useState, useEffect, useRef, useMemo, useCallback } = React;
@@ -629,7 +629,7 @@ function MarsExplorerApp() {
   };
 
   // -----------------------------------------------------------
-  // 7. Virtual Companion "ARES" Speech & Narration
+  // 7. Virtual Companion "ASTRA" Speech & Narration
   // -----------------------------------------------------------
   const currentWaypointDiscovery = useMemo(() => {
     if (!selectedCheckpointIds || selectedCheckpointIds.length === 0) return null;
@@ -695,11 +695,11 @@ function MarsExplorerApp() {
         {/* Brand & Mission Status */}
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded bg-gradient-to-br from-mars-rust to-mars-red flex items-center justify-center shadow-lg shadow-mars-red/20 border border-mars-orange/50">
-            <span className="text-white font-mission font-bold text-sm">ME</span>
+            <span className="text-white font-mission font-bold text-sm">MV</span>
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-mission font-bold text-sm tracking-wider text-slate-100">MARS EXPLORER</span>
+              <span className="font-mission font-bold text-sm tracking-wider text-slate-100">MANGALVERSE</span>
               <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-mars-rust/30 text-mars-orange border border-mars-rust/50 font-semibold">
                 JEZERO CRATER
               </span>
@@ -761,7 +761,7 @@ function MarsExplorerApp() {
               title={isVoiceEnabled ? "Mute Companion Voice" : "Enable Companion Voice"}
             >
               {isVoiceEnabled ? <IconVolume /> : <IconVolumeMute />}
-              <span>ARES AUDIO</span>
+              <span>ASTRA AUDIO</span>
             </button>
           )}
 
@@ -1190,9 +1190,11 @@ function MarsExplorerApp() {
             <div className="p-4 border-b border-mars-border bg-gradient-to-b from-mars-panel to-mars-darker">
               <div className="flex items-center space-x-3 mb-3">
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-mars-cyan to-mars-neon flex items-center justify-center text-mars-darkest font-bold text-lg shadow-lg shadow-mars-cyan/30 companion-pulse">
-                    ARES
-                  </div>
+                  <img
+                    src="/static/img/astra_avatar.png"
+                    alt="ASTRA Virtual Companion"
+                    className="w-16 h-16 object-contain drop-shadow-lg companion-pulse"
+                  />
                   {isSpeaking && (
                     <div className="absolute -bottom-1 -right-1 px-1.5 py-0.2 rounded-full bg-mars-neon text-mars-darkest font-mono text-[9px] font-bold">
                       SPEAKING
@@ -1202,10 +1204,10 @@ function MarsExplorerApp() {
 
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className="font-mission font-bold text-sm text-slate-100">ARES VIRTUAL COMPANION</span>
+                    <span className="font-mission font-bold text-sm text-slate-100">ASTRA VIRTUAL COMPANION</span>
                   </div>
                   <div className="text-[10px] font-mono text-mars-cyan">
-                    Automated Reconnaissance & Exploration Specialist
+                    Autonomous Scientific & Terrain Reconnaissance Assistant
                   </div>
                 </div>
               </div>
@@ -1243,7 +1245,7 @@ function MarsExplorerApp() {
                   {/* Speech Bubble Narrative */}
                   <div className="relative p-3.5 rounded-xl bg-gradient-to-br from-mars-panel to-slate-900 border border-mars-cyan/40 shadow-md shadow-mars-cyan/10">
                     <div className="text-xs font-mono text-mars-cyan font-semibold mb-1 flex items-center justify-between">
-                      <span>ARES EXPEDITION LOG:</span>
+                      <span>ASTRA EXPEDITION LOG:</span>
                       <button
                         onClick={() => speakText(currentWaypointDiscovery.companion_insight)}
                         className="text-[10px] text-slate-400 hover:text-mars-cyan flex items-center gap-1"
@@ -1510,7 +1512,7 @@ function MarsExplorerApp() {
                 NASA DATASET PROVENANCE & ATTRIBUTION
               </h2>
               <div className="text-[11px] text-slate-400 mt-1">
-                Mars Explorer complies with strict planetary data standards. All measurements, coordinates, and scientific analyses originate from authentic NASA mission releases.
+                Mangalverse complies with strict planetary data standards. All measurements, coordinates, and scientific analyses originate from authentic NASA mission releases.
               </div>
             </div>
 

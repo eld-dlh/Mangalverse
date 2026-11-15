@@ -1,4 +1,4 @@
-// MARS EXPLORER – Root Application
+// MANGALVERSE – Root Application
 // Orchestrates state, API calls, navigation, and renders all major views.
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
@@ -237,7 +237,7 @@ function App() {
     if (bounds.length) mapInstanceRef.current.fitBounds(bounds, { padding: [40, 40] })
   }, [discoveries])
 
-  // ── ARES speech synthesis ─────────────────────────────────────────────────
+  // ── ASTRA speech synthesis ────────────────────────────────────────────────
   const speakText = useCallback(text => {
     if (!isVoiceEnabled || !('speechSynthesis' in window)) return
     window.speechSynthesis.cancel()

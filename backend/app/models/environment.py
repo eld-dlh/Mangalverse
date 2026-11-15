@@ -22,8 +22,14 @@ class SolEnvironmentReport(BaseModel):
     survival_assessment: str
     eva_suit_warnings: List[str]
     rover_mobility_status: str
-    pressure_provenance: Optional[str] = "VERIFIED ORIGINAL DOWNLOAD"
-    pressure_interpretation_status: Optional[str] = "VERIFIED SINGLE TRANSDUCER"
+    pressure_provenance: Optional[str] = "PDS4 CAL_PS Calibrated Observation (NASA/JPL/CAB)"
+    pressure_interpretation_status: Optional[str] = "VERIFIED SINGLE TRANSDUCER (Nominal NGM Barocap)"
+    air_temp_provenance: Optional[str] = "PDS4 CAL_ATS 5-Sensor In-Situ Observation (NASA/JPL/CAB)"
+    ground_temp_provenance: Optional[str] = "Model Estimate (Derived from regional surface thermal inertia)"
+    wind_provenance: Optional[str] = "Model Estimate (Regional Martian Atmospheric Circulation Model)"
+    dust_provenance: Optional[str] = "Model Estimate (Seasonal Optical Depth Climatology)"
+    uv_provenance: Optional[str] = "Model Estimate (Top-of-Atmosphere Radiative Transfer)"
+    data_authenticity_notice: Optional[str] = "Atmospheric pressure and air temperature are direct NASA PDS calibrated observations. Ground temperature, wind, dust tau, and UV are model estimates."
 
 class EnvironmentTelemetryResponse(BaseModel):
     latest_sol: SolEnvironmentReport

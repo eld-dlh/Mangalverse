@@ -49,37 +49,50 @@ def get_terrain_data(
                 detail=f"Invalid longitude: {lon_val}. Martian longitude must be between -180.0 and 360.0 degrees."
             )
 
-        in_bounds = (
-            JEZERO_BBOX["min_lon"] <= lon_val <= JEZERO_BBOX["max_lon"] and
-            JEZERO_BBOX["min_lat"] <= lat_val <= JEZERO_BBOX["max_lat"]
-        )
+        in_bounds = jezero_dem_service.is_in_bounds(lon_val, lat_val)
 
-        elev = jezero_dem_service.get_elevation_at(lon_val, lat_val)
-        slope = jezero_dem_service.get_slope_at(lon_val, lat_val)
-        terrain_assessment = jezero_dem_service.get_terrain_assessment(slope)
-        hirise_elev = jezero_dem_service.get_hirise_elevation_at(lon_val, lat_val)
+        if not in_bounds:
+            props = {
+                "longitude": lon_val,
+                "latitude": lat_val,
+                "elevation_meters": None,
+                "ctx_elevation_meters": None,
+                "hirise_elevation_meters": None,
+                "slope_degrees": None,
+                "terrain_classification": "OUT_OF_BOUNDS",
+                "terrain_model_note": "Coordinates fall outside the authentic USGS Jezero Crater DEM coverage boundary (~77.0°E-78.6°E, ~17.6°N-19.3°N).",
+                "primary_source": "Outside Jezero Crater DEM Coverage",
+                "in_jezero_dem_bounds": False,
+                "datum": "MOLA Areoid Datum (USGS/NASA)",
+                "attribution": NASA_ATTRIBUTIONS["topography"]
+            }
+        else:
+            elev = jezero_dem_service.get_elevation_at(lon_val, lat_val)
+            slope = jezero_dem_service.get_slope_at(lon_val, lat_val)
+            terrain_assessment = jezero_dem_service.get_terrain_assessment(slope)
+            hirise_elev = jezero_dem_service.get_hirise_elevation_at(lon_val, lat_val)
 
-        res_elev = hirise_elev if (pref_hirise and hirise_elev is not None) else round(elev, 2)
-        source = (
-            "USGS Mars 2020 HiRISE DTM (1m/pixel)"
-            if (pref_hirise and hirise_elev is not None)
-            else "USGS Mars 2020 CTX DEM (20m/pixel)"
-        )
+            res_elev = hirise_elev if (pref_hirise and hirise_elev is not None) else (round(elev, 2) if elev is not None else None)
+            source = (
+                "USGS Mars 2020 HiRISE DTM (1m/pixel)"
+                if (pref_hirise and hirise_elev is not None)
+                else "USGS Mars 2020 CTX DEM (20m/pixel)"
+            )
 
-        props = {
-            "longitude": lon_val,
-            "latitude": lat_val,
-            "elevation_meters": res_elev,
-            "ctx_elevation_meters": round(elev, 2),
-            "hirise_elevation_meters": hirise_elev,
-            "slope_degrees": round(slope, 2),
-            "terrain_classification": terrain_assessment["classification"],
-            "terrain_model_note": terrain_assessment["model_note"],
-            "primary_source": source,
-            "in_jezero_dem_bounds": in_bounds,
-            "datum": "MOLA Areoid Datum (USGS/NASA)",
-            "attribution": NASA_ATTRIBUTIONS["topography"]
-        }
+            props = {
+                "longitude": lon_val,
+                "latitude": lat_val,
+                "elevation_meters": res_elev,
+                "ctx_elevation_meters": round(elev, 2) if elev is not None else None,
+                "hirise_elevation_meters": hirise_elev,
+                "slope_degrees": round(slope, 2) if slope is not None else None,
+                "terrain_classification": terrain_assessment["classification"],
+                "terrain_model_note": terrain_assessment["model_note"],
+                "primary_source": source,
+                "in_jezero_dem_bounds": True,
+                "datum": "MOLA Areoid Datum (USGS/NASA)",
+                "attribution": NASA_ATTRIBUTIONS["topography"]
+            }
 
         if fmt == "geojson":
             return {

@@ -1,5 +1,5 @@
 /**
- * MarsMap – Leaflet map component for MARS EXPLORER
+ * MarsMap – Leaflet map component for MANGALVERSE
  *
  * Responsibilities:
  *  - Renders the interactive Leaflet map focused on Jezero Crater

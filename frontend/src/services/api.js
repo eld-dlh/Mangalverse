@@ -1,5 +1,5 @@
-﻿/**
- * Mars Explorer API Service
+/**
+ * Mangalverse API Service
  * Each function tries the real backend (/api/...) and falls back to mock data on error.
  */
 

@@ -1,5 +1,5 @@
 """
-Scientific Objective and Mission Itinerary Service (MARS EXPLORER).
+Scientific Objective and Mission Itinerary Service (MANGALVERSE).
 Decoupled mission planning layer connecting verified scientific objectives
 and NASA discovery records with the terrain-aware route-planning engine.
 """
